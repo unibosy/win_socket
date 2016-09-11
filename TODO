@@ -1,0 +1,5 @@
+2016/9/6
+1/Maybe need to add front-end processing to display these on UI, so that we can send and receive messages more gracefully;
+2/Multi-client corresponds to a server;
+3/Special data transfer format.
+4/Support on more platform.
