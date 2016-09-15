@@ -11,6 +11,7 @@ This software is distributed without any warranty.
 #pragma once
 
 #include <winsock2.h>
+#include <string>
 
 class ServerSocket
 {
@@ -18,20 +19,23 @@ public:
   ServerSocket();
   ~ServerSocket();
   //init the socket and start threads to send/receive messages.
-  void init();
+  int init();
+  int startRunning();
   
 protected:
-  void createSocket();
+  void recvClientConnect();
+
+  int createSocket();
 
   void runRecvThread();
 
-  void runSendThread();
+  void runSendThread(/*void* p*/);
   
-  void recvMessage();
+  void recvMessage(SOCKET client_sock);
 
-  void sendMessage();
+  void sendMessage(SOCKET sock);
 
-  SOCKET waitAcceptClient();
+  void waitAcceptClient();
 private:
   
   SOCKET m_server_socket;

@@ -12,7 +12,15 @@ int main(int argc, char* argv[])
 {
   ServerSocket* socket_server = new ServerSocket;
 
-  socket_server->init();
+  int result = socket_server->init();
+  if (result != 0)
+  {
+    std::cout << "init error" << std::endl;
+    delete socket_server;
+    socket_server = nullptr;
+    return -1;
+  }
+  int run_result = socket_server->startRunning();
 
   getchar();
   return 0;

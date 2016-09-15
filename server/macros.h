@@ -16,3 +16,6 @@ This software is distributed without any warranty.
 #define SERVERPORT 8099
 //#define SERVERIP "192.168.41.104"
 #define SERVERIP "192.168.41.109"
+
+//the max number of connected cleints
+#define CLIENTNUMBER 10

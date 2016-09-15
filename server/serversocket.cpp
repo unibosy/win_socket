@@ -13,6 +13,11 @@ std::mutex mtx;
 std::thread recvthread;
 std::thread sendthread;
 
+//create thread pool for client connect
+std::thread thread_pool[CLIENTNUMBER];
+
+static int client_number = 0;
+
 ServerSocket::ServerSocket() : m_server_socket(0), m_client_socket(0)
 {
 }
@@ -30,20 +35,20 @@ ServerSocket::~ServerSocket()
   }
   WSACleanup();
 }
-void ServerSocket::createSocket()
+int ServerSocket::createSocket()
 {
   std::lock_guard<std::mutex> lock(mtx);
   if (m_server_socket)
   {
     std::cout << "Already exist server socket!" << std::endl;
-    return;
+    return -1;
   }
   //initialize
   WORD socketVersion = MAKEWORD(2, 2);
   WSADATA wsaData;
   if (WSAStartup(socketVersion, &wsaData) != 0)
   {
-    return;
+    return -1;
   }
   //create socket
   m_server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -52,7 +57,7 @@ void ServerSocket::createSocket()
     std::cout << "create socket error !" << std::endl;
     closesocket(m_server_socket);
     WSACleanup();
-    return;
+    return -1;
   }
 
   sockaddr_in sin;
@@ -74,64 +79,96 @@ void ServerSocket::createSocket()
     std::cout << "listen error!" << std::endl;
     closesocket(m_server_socket);
     WSACleanup();
-    return;
+    return -1;
   }
+  return 0;
 }
 
-void ServerSocket::init()
+int ServerSocket::init()
 {
-  createSocket();
-  runRecvThread();
-  runSendThread();
-  recvthread.join();
-  sendthread.join();
-  std::cout << "init end" << std::endl;
+  return createSocket();
 }
+int ServerSocket::startRunning()
+{
+  //receive client connect, and will start threads to receive connected client messages
+  //std::thread recv_client_thread = std::thread(&ServerSocket::recvClientConnect, this);
+  //recv_client_thread.join();
+
+  recvClientConnect();
+
+  std::cout << "init end" << std::endl;
+  return 0;
+}
+
+void ServerSocket::recvClientConnect()
+{
+  //create a thread to wait client connect, and start a thread for receiving message from client, and also start
+  //a thread for sending message to a connected client.
+  //std::thread wait_thread = std::thread(&ServerSocket::waitAcceptClient, this);
+  waitAcceptClient();
+
+  //wait_thread.join();
+}
+
 void ServerSocket::runRecvThread()
 {
-  recvthread = std::thread(&ServerSocket::recvMessage, this);
+  //recvthread = std::thread(&ServerSocket::recvMessage, this);
   //recvthread.join();//wait this thread finished
 }
-void ServerSocket::runSendThread()
+void ServerSocket::runSendThread(/*void* p*/)
 {
-  sendthread = std::thread(&ServerSocket::sendMessage, this);
-  //sendthread.join();//wait this thread finished
+  SOCKET client_sock;
+  sendthread = std::thread(&ServerSocket::sendMessage, this, m_client_socket/*, (SOCKET *)p*/);
+  sendthread.join();//wait this thread finished
 }
-SOCKET ServerSocket::waitAcceptClient()
+void ServerSocket::waitAcceptClient()
 {
-  SOCKET client_socket;
-  sockaddr_in remoteAddr;
-  int nAddrlen = sizeof(remoteAddr);
-  std::cout << "waiting for client!" << std::endl;
-  client_socket = ::accept(m_server_socket, (SOCKADDR *)&remoteAddr, &nAddrlen);
-  if (client_socket == INVALID_SOCKET)
+  while (client_number < CLIENTNUMBER)
   {
-    std::cout << "accept error!" << std::endl;
+    SOCKET client_socket;
+    sockaddr_in remoteAddr;
+    int nAddrlen = sizeof(remoteAddr);
+    std::cout << "waiting for client!" << std::endl;
+    client_socket = ::accept(m_server_socket, (SOCKADDR *)&remoteAddr, &nAddrlen);
+    if (client_socket == INVALID_SOCKET)
+    {
+      std::cout << "accept error!" << std::endl;
+    }
+    std::cout << "new client ip=" << inet_ntoa(remoteAddr.sin_addr) << std::endl;
+    client_number++;
+
+    //SOCKET client_socket = waitAcceptClient();
+    m_client_socket = client_socket;
+    std::string test = "test";
+    thread_pool[client_number] = std::thread(&ServerSocket::recvMessage, this, client_socket);
+
+    sendthread = std::thread(&ServerSocket::sendMessage, this, client_socket);
+    
+    thread_pool[client_number].detach();
+
+    sendthread.detach();
+
+    Sleep(10);
   }
-  std::cout << "new client ip=" << inet_ntoa(remoteAddr.sin_addr) << std::endl;
-  return client_socket;
+  return;
 }
 
 //receive message
-void ServerSocket::recvMessage()
+void ServerSocket::recvMessage(SOCKET client_sock)
 {
   //TODO: How will do if there are multiple clients wait to connect ?
   std::cout << "recvMessage thread id="<<std::this_thread::get_id() << std::endl;
   //SOCKET client_socket = 0;
+
   int iResult = -1;
   do
   {
-    //wait client to actively connect this server
-    if(!m_client_socket)
-      m_client_socket = waitAcceptClient();
     char* recvData = new char[MAXLEN];
     memset(recvData, 0, MAXLEN);
-    //std::cout << "what???" << std::endl;
-    iResult = ::recv(m_client_socket, recvData, MAXLEN, 0);
+    iResult = ::recv(client_sock, recvData, MAXLEN, 0);
     if ( iResult > 0 )
     {
       std::cout << "receive message="<<recvData << std::endl;
-      //recvData = nullptr;
       delete []recvData;
       recvData = nullptr;
     }
@@ -151,10 +188,10 @@ void ServerSocket::recvMessage()
     }
     //sleep 10ms
     Sleep(10);
-  } while (iResult > 0);
+  } while (iResult > 0 && client_sock);
 }
 
-void ServerSocket::sendMessage()
+void ServerSocket::sendMessage(SOCKET sock)
 {
   //system("cmd.exe /c dir c:\\");
   std::cout << "sendMessage thread id=" << std::this_thread::get_id() << std::endl;
@@ -163,15 +200,16 @@ void ServerSocket::sendMessage()
   while(true)
   {
     //no client, cannot send message
-    if (m_client_socket)
+    if (sock)
     {
       getline(std::cin, send_message);
       if (send_message.length() <= 0)
       {
         std::cout << "Please input some words to send!" << std::endl;
-          continue;
+        continue;
       }
-      iResult = ::send(m_client_socket, send_message.c_str(), send_message.length(), 0);
+      iResult = ::send(sock, send_message.c_str(), send_message.length(), 0);
+      std::cout << "thread id=" << std::this_thread::get_id()<<",send message="<<send_message << std::endl;
       if (iResult > 0)
       {
         std::cout << "send_message is=" << send_message.c_str() << std::endl;
