@@ -12,21 +12,38 @@ std::thread sendthread;
 
 std::mutex mtx1;
 
+std::mutex instance_mutex;
 
 ClientSocket::ClientSocket() : m_socket(0)
-{}
+{
+  m_buf = new char[MESSAGEBUF];
+  memset(m_buf, 0, strlen(m_buf));
+}
 ClientSocket::~ClientSocket()
 {}
 
-void ClientSocket::init(const std::string& serverip)
+ClientSocket* ClientSocket::m_instance = nullptr;
+
+ClientSocket* ClientSocket::instance()
+{
+  if (m_instance == nullptr)
+  {
+    instance_mutex.lock();
+    if (m_instance == nullptr)
+      m_instance = new ClientSocket;
+    instance_mutex.unlock();
+  }
+  return m_instance;
+}
+void ClientSocket::init(const char* serverip)
 {
   bool result =createSocket(serverip);
   if(result)
   {
     runRecvThread();
     runSendThread();
-    recvthread.join();
-    sendthread.join();
+    recvthread.detach();
+    sendthread.detach();
   }
   else
   {
@@ -36,7 +53,7 @@ void ClientSocket::init(const std::string& serverip)
 }
 
 
-bool ClientSocket::createSocket(const std::string& serverip)
+bool ClientSocket::createSocket(const char* serverip)
 {
   std::lock_guard<std::mutex> lock(mtx1);
 
@@ -57,7 +74,7 @@ bool ClientSocket::createSocket(const std::string& serverip)
   sockaddr_in serAddr;
   serAddr.sin_family = AF_INET;
   serAddr.sin_port = htons(SERVERPORT);
-  serAddr.sin_addr.S_un.S_addr = inet_addr(serverip.c_str());
+  serAddr.sin_addr.S_un.S_addr = inet_addr(serverip);
   if (connect(m_socket, (sockaddr *)&serAddr, sizeof(serAddr)) == SOCKET_ERROR)
   {
     std::cout<<"connect error !"<<std::endl;
@@ -69,38 +86,44 @@ bool ClientSocket::createSocket(const std::string& serverip)
 
 void ClientSocket::sendMessage()
 {
+  //int length = strlen(send_message);
   std::cout << "sendMessage thread id=" << std::this_thread::get_id() << std::endl;
-  std::string send_message = "";
+    //<<",message="<< send_message << ",length="<< length <<std::endl;
+
   int iResult = -1;
   while (true)
   {
     //no client, cannot send message
     if (m_socket)
     {
-      getline(std::cin, send_message);
-      if (send_message.length() <= 0)
+      const char* send_message = getMessage();
+      if (strlen(send_message) > 0)
       {
-        std::cout << "Please input some words to send!" << std::endl;
-        continue;
-      }
-      iResult = ::send(m_socket, send_message.c_str(), send_message.length(), 0);
-      if (iResult > 0)
-      {
-        std::cout << "send_message is=" << send_message.c_str() << std::endl;
-      }
-      else if (iResult == 0)
-      {
-        continue;
-      }
-      else
-      {
-        std::cout << "send failed!" << std::endl;
-        break;
-      }
-    }
-    //sleep 10ms
-    Sleep(10);
 
+        iResult = ::send(m_socket, send_message, strlen(send_message), 0);
+
+        std::cout << "send_message="<< send_message << std::endl;
+        memset(m_buf, 0, MESSAGEBUF);
+        //delete send_message;
+        //send_message = nullptr;
+
+        if (iResult > 0)
+        {
+          std::cout << "send_message is=" << send_message << std::endl;
+        }
+        else if (iResult == 0)
+        {
+          continue;
+        }
+        else
+        {
+          std::cout << "send failed!" << std::endl;
+          break;
+        }
+      }
+      //sleep 10ms
+      Sleep(10);
+    }
   }
 }
 
@@ -145,4 +168,13 @@ void ClientSocket::runRecvThread()
 void ClientSocket::runSendThread()
 {
   sendthread = std::thread(&ClientSocket::sendMessage, this);
+}
+
+void ClientSocket::setMessage(const char* message)
+{
+  strncpy(m_buf, message, strlen(message));
+}
+const char* ClientSocket::getMessage() const
+{
+  return m_buf;
 }

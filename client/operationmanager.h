@@ -7,35 +7,29 @@ This software may not be copied, modified, sold or distributed
 other than expressed in the named license agreement.
 This software is distributed without any warranty.
 */
-
 #pragma once
 
-#include <string>
-#include <list>
+#include "core\operation_base.h"
 
-typedef std::list<std::string> StrList;
+#include <mutex>
 
-/*
- * define common used functions by single instance;
- *
-*/
-class  Utility
+class  OperationManager : public OperationBase
 {
 public:
   
-  static Utility* instance();
+  OperationManager();
+  ~OperationManager();
 
-  //get local ip
-  StrList getLocalIP();
+  static OperationManager*instance();
 
-protected:
-  ////get local ip
-  //std::string getLocalIP();
+  virtual int invoke(ResourceInfo* resourceinfo, OPERATIONTYPE type, void* para);
+
+  virtual int invoke_para(ResourceInfo* resourceinfo, void* para);
 private:
-  static Utility* m_instance;
-  StrList m_strlist;
 
-private:
-  Utility();
-  ~Utility();
+  static OperationManager* m_instance;
+
+
+
 };
+

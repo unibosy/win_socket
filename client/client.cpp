@@ -2,6 +2,9 @@
 #include "readconfigfile.h"
 #include "clientsocket.h"
 #include "utility.h"
+#include "core\operation_login.h"
+#include "include\resourceinfo.h"
+#include "operationmanager.h"
 
 
 #include "iostream"
@@ -14,13 +17,27 @@ int main(int argc, char* argv[])
   std::string content = readfile->getFileContent(configure_path);
   std::string serverip = readfile->getServerIP(content);
   std::cout << "content="<< serverip << std::endl;
-
-  ClientSocket* cs = new ClientSocket;
-  cs->init(serverip);
+  //init
+  ClientSocket::instance()->init(serverip.c_str());
   std::cout << "end init" << std::endl;
 
-  delete cs;
-  cs = nullptr;
+  //login
+  StrList strlist = Utility::instance()->getLocalIP();
+  std::string ip = "";
+  for (StrList::iterator itr = strlist.begin(); itr != strlist.end(); ++itr)
+  {
+    ip = *itr;
+    std::cout << "ip="<<ip << std::endl;
+  }
+  ResourceInfo* resinfo = new ResourceInfo;
+  resinfo->setResourceID("1000");
+  resinfo->setPassword("abcdf");
+  resinfo->setResourceIP(ip.c_str());
+  OperationManager* op = new Operation_Login;
+  op->invoke(resinfo, LOGIN, nullptr);
+
+  std::cout << "................." << std::endl;
+
   delete readfile;
   readfile = nullptr;
 

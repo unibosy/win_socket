@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AF8573B2-9F50-4A35-AEEC-26EFD4BA7A0B}</ProjectGuid>
+    <ProjectGuid>{5B813C63-3302-475F-960A-0AA1C173293B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>client</RootNamespace>
+    <RootNamespace>testpointer</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -101,7 +101,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,24 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="client.cpp" />
-    <ClCompile Include="clientsocket.cpp" />
-    <ClCompile Include="core\operation_base.cpp" />
-    <ClCompile Include="core\operation_login.cpp" />
-    <ClCompile Include="core\resourceinfo.cpp" />
-    <ClCompile Include="operationmanager.cpp" />
-    <ClCompile Include="readconfigfile.cpp" />
-    <ClCompile Include="utility.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="clientsocket.h" />
-    <ClInclude Include="core\operation_base.h" />
-    <ClInclude Include="core\operation_login.h" />
-    <ClInclude Include="include\resourceinfo.h" />
-    <ClInclude Include="macros.h" />
-    <ClInclude Include="operationmanager.h" />
-    <ClInclude Include="readconfigfile.h" />
-    <ClInclude Include="utility.h" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

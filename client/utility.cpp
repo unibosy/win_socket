@@ -29,10 +29,13 @@ Utility::~Utility()
 }
 Utility* Utility::instance()
 {
-  mtx.lock();
-  if ( m_instance == nullptr )
-    m_instance = new Utility;
-  mtx.unlock();
+  if (m_instance == nullptr)
+  {
+    mtx.lock();
+    if (m_instance == nullptr)
+      m_instance = new Utility;
+    mtx.unlock();
+  }
   return m_instance;
 }
 

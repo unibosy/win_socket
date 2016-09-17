@@ -1,9 +1,15 @@
+TODO:
 2016/9/6
 1/Maybe need to add front-end processing to display these on UI, so that we can send and receive messages more gracefully;
 2/Multi-client corresponds to a server;
-3/Special data transfer format.
+3/Special data transfer format;
 4/Support on more platform.
 
+2016/9/16
+5/Add log tracking;
+6/When a client logon the server , server will notify his online status to other clients.
+
+Done
 2016/9/16
 2/Multi-client corresponds to a server;---------done
 

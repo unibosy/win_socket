@@ -9,7 +9,7 @@ This software is distributed without any warranty.
 */
 
 #pragma once
-
+#include "macros.h"
 
 #include "winsock2.h"
 
@@ -18,14 +18,15 @@ This software is distributed without any warranty.
 class ClientSocket
 {
 public:
-  ClientSocket();
-  ~ClientSocket();
 
+  static ClientSocket* instance();
   //init the socket and start threads to send/receive messages.
-  void init(const std::string& serverip);
+  void init(const char* serverip);
 
+  void setMessage(const char* message);
+  const char* getMessage() const;
 protected:
-  bool createSocket(const std::string& serverip);
+  bool createSocket(const char* serverip);
 
   void runRecvThread();
 
@@ -35,7 +36,15 @@ protected:
 
   void sendMessage();
 
+
 private:
 
+  ClientSocket();
+  ~ClientSocket();
+
+  static ClientSocket* m_instance;
+
   SOCKET m_socket;
+
+  char* m_buf;
 };

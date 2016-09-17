@@ -19,4 +19,6 @@ This software is distributed without any warranty.
 #define SERVERPORT 8099
 #define SERVERIP "192.168.41.109"
 
+#define MESSAGEBUF 16384
+
 const std::string configure_path = "./config.ini";

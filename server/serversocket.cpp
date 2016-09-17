@@ -105,9 +105,10 @@ void ServerSocket::recvClientConnect()
   //create a thread to wait client connect, and start a thread for receiving message from client, and also start
   //a thread for sending message to a connected client.
   //std::thread wait_thread = std::thread(&ServerSocket::waitAcceptClient, this);
+  //wait_thread.join();
+
   waitAcceptClient();
 
-  //wait_thread.join();
 }
 
 void ServerSocket::runRecvThread()
@@ -137,16 +138,15 @@ void ServerSocket::waitAcceptClient()
     std::cout << "new client ip=" << inet_ntoa(remoteAddr.sin_addr) << std::endl;
     client_number++;
 
-    //SOCKET client_socket = waitAcceptClient();
     m_client_socket = client_socket;
     std::string test = "test";
     thread_pool[client_number] = std::thread(&ServerSocket::recvMessage, this, client_socket);
 
-    sendthread = std::thread(&ServerSocket::sendMessage, this, client_socket);
+    std::thread send_thread = std::thread(&ServerSocket::sendMessage, this, client_socket);
     
     thread_pool[client_number].detach();
 
-    sendthread.detach();
+    send_thread.detach();
 
     Sleep(10);
   }
@@ -209,10 +209,10 @@ void ServerSocket::sendMessage(SOCKET sock)
         continue;
       }
       iResult = ::send(sock, send_message.c_str(), send_message.length(), 0);
-      std::cout << "thread id=" << std::this_thread::get_id()<<",send message="<<send_message << std::endl;
+      
       if (iResult > 0)
       {
-        std::cout << "send_message is=" << send_message.c_str() << std::endl;
+        std::cout << "thread id=" << std::this_thread::get_id() << ",send message=" << send_message << std::endl;
       }
       else if (iResult == 0)
       {
