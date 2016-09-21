@@ -1,9 +1,10 @@
 #pragma once
 
+#include "macros.h"
 
 //set the login user infomessage, like ip, userid, password...
 
-class ResourceInfo
+class COMMU_API ResourceInfo
 {
 public:
   ResourceInfo();

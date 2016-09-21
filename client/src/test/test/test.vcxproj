@@ -19,10 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AF8573B2-9F50-4A35-AEEC-26EFD4BA7A0B}</ProjectGuid>
+    <ProjectGuid>{9ED560F1-D255-4AA2-AB67-71091D4891A5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>client</RootNamespace>
+    <RootNamespace>test</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>test_client</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -39,7 +40,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -74,7 +75,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>commu_sdk</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -102,7 +102,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,27 +143,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\macros.h" />
-    <ClInclude Include="src\clientsocket.h" />
-    <ClInclude Include="src\include\appcontext.h" />
-    <ClInclude Include="src\include\commondef.h" />
-    <ClInclude Include="src\include\operationmanager.h" />
-    <ClInclude Include="src\include\resourceinfo.h" />
-    <ClInclude Include="src\operationmanager_imp.h" />
-    <ClInclude Include="src\operation_base.h" />
-    <ClInclude Include="src\operation_login.h" />
-    <ClInclude Include="src\operation_send_message.h" />
-    <ClInclude Include="src\utility.h" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="readconfigfile.cpp" />
+    <ClCompile Include="test_functions.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\core\appcontext.cpp" />
-    <ClCompile Include="src\core\clientsocket.cpp" />
-    <ClCompile Include="src\core\operationmanager.cpp" />
-    <ClCompile Include="src\core\operationmanager_imp.cpp" />
-    <ClCompile Include="src\core\operation_base.cpp" />
-    <ClCompile Include="src\core\operation_login.cpp" />
-    <ClCompile Include="src\core\resourceinfo.cpp" />
-    <ClCompile Include="src\core\utility.cpp" />
+    <ClInclude Include="readconfigfile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

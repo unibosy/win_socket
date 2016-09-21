@@ -9,7 +9,7 @@ This software is distributed without any warranty.
 */
 
 #pragma once
-#include "macros.h"
+#include "include\commondef.h"
 
 #include "winsock2.h"
 

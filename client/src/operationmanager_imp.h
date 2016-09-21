@@ -9,16 +9,20 @@ This software is distributed without any warranty.
 */
 #pragma once
 
-#include "WINSOCK2.H"
-#include "winsock.h"
+#include "include/operationmanager.h"
+#include "operation_base.h"
 
-#include <string>
+//implement OperationManager
 
-#define MAXLEN 2048
+class OperationManager_Imp : public OperationBase
+{
+public:
+  OperationManager_Imp();
+  ~OperationManager_Imp();
 
-#define SERVERPORT 8099
-#define SERVERIP "192.168.41.109"
+  static OperationManager_Imp* instance();
 
-#define MESSAGEBUF 16384
-
-const std::string configure_path = "./config.ini";
+  int invoke(ResourceInfo* resourceinfo, OPERATIONTYPE type, void* para);
+private:
+  static OperationManager_Imp* m_instance;
+};

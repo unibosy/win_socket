@@ -1,5 +1,5 @@
-#include "clientsocket.h"
-#include "macros.h"
+#include "../clientsocket.h"
+#include "../include/commondef.h"
 
 #include <string>
 #include <thread>
@@ -106,7 +106,7 @@ void ClientSocket::sendMessage()
         memset(m_buf, 0, MESSAGEBUF);
         //delete send_message;
         //send_message = nullptr;
-
+        memset(m_buf, 0, MESSAGEBUF);
         if (iResult > 0)
         {
           std::cout << "send_message is=" << send_message << std::endl;

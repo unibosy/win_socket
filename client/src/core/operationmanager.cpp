@@ -1,6 +1,6 @@
-#include "operationmanager.h"
+#include "../include/operationmanager.h"
 
-#include "core\operation_login.h"
+#include "../operation_login.h"
 
 #include <memory>
 #include <string>
@@ -8,9 +8,6 @@
 
 
 std::mutex instance_mtx;
-
-OperationManager* OperationManager::m_instance = nullptr;
-
 
 OperationManager::OperationManager()
 {
@@ -20,16 +17,6 @@ OperationManager::~OperationManager()
 {
 }
 
-OperationManager* OperationManager::instance()
-{
-  if (m_instance == nullptr)
-  {
-    std::lock_guard<std::mutex> lock(instance_mtx);
-    if (m_instance == nullptr)
-      m_instance = new OperationManager;
-  }
-  return m_instance;
-}
 
 int OperationManager::invoke(ResourceInfo* resourceinfo, OPERATIONTYPE type, void* para)
 {

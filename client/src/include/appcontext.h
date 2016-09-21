@@ -9,13 +9,18 @@ This software is distributed without any warranty.
 */
 #pragma once
 
-#include <WINSOCK2.H>
+/*
+ *brief use client sdk:step 1: initApp, 2: login , 3: startRunning
+ */
 
-#define MAXLEN 2048
-
-#define SERVERPORT 8099
-//#define SERVERIP "192.168.41.104"
-#define SERVERIP "192.168.41.109"
-
-//the max number of connected cleints
-#define CLIENTNUMBER 10
+class AppContext
+{
+public:
+  static AppContext* instance();
+  int initApp();
+  int startRunning();
+private:
+  static AppContext* m_appcontext;
+  AppContext();
+  ~AppContext();
+};

@@ -1,13 +1,7 @@
 #pragma once
 
-#include "../include/resourceinfo.h"
-
-enum OPERATIONTYPE
-{
-  LOGIN,
-  LOGOUT,
-  UNKNOWN_TYPE
-};
+#include "include/resourceinfo.h"
+#include "include/operationmanager.h"
 
 class OperationBase
 {
