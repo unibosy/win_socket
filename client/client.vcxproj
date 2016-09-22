@@ -148,6 +148,7 @@
     <ClInclude Include="src\clientsocket.h" />
     <ClInclude Include="src\include\appcontext.h" />
     <ClInclude Include="src\include\commondef.h" />
+    <ClInclude Include="src\include\lock.h" />
     <ClInclude Include="src\include\operationmanager.h" />
     <ClInclude Include="src\include\resourceinfo.h" />
     <ClInclude Include="src\operationmanager_imp.h" />
@@ -159,6 +160,7 @@
   <ItemGroup>
     <ClCompile Include="src\core\appcontext.cpp" />
     <ClCompile Include="src\core\clientsocket.cpp" />
+    <ClCompile Include="src\core\lock.cpp" />
     <ClCompile Include="src\core\operationmanager.cpp" />
     <ClCompile Include="src\core\operationmanager_imp.cpp" />
     <ClCompile Include="src\core\operation_base.cpp" />

@@ -2,6 +2,7 @@
 #include <string>
 #include <thread>
 
+
 AppContext* AppContext::m_appcontext = nullptr;
 
 AppContext* AppContext::instance()

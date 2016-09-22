@@ -1,5 +1,7 @@
 #include "../clientsocket.h"
 #include "../include/commondef.h"
+#include "../include/lock.h"
+
 
 #include <string>
 #include <thread>
@@ -55,8 +57,7 @@ void ClientSocket::init(const char* serverip)
 
 bool ClientSocket::createSocket(const char* serverip)
 {
-  std::lock_guard<std::mutex> lock(mtx1);
-
+  cs_lock.lockGuard();
   WORD sockVersion = MAKEWORD(2, 2);
   WSADATA data;
   if (WSAStartup(sockVersion, &data) != 0)

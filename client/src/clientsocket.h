@@ -10,10 +10,13 @@ This software is distributed without any warranty.
 
 #pragma once
 #include "include\commondef.h"
+#include "include\lock.h"
 
 #include "winsock2.h"
 
 #include <string>
+
+class Lock;
 
 class ClientSocket
 {
@@ -36,6 +39,9 @@ protected:
 
   void sendMessage();
 
+protected:
+
+  Lock cs_lock;
 
 private:
 
@@ -47,4 +53,6 @@ private:
   SOCKET m_socket;
 
   char* m_buf;
+
+
 };
