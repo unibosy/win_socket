@@ -4,6 +4,7 @@
 #include "macros.h"
 
 /**
+ * @brief Simple implementation of std::mutex as a wrapper.
  * If locked a mutex, unlock is MUST within the same thread.
  * The same thread can get the mutex again.
  */
