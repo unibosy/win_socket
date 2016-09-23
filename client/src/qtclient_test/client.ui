@@ -17,7 +17,7 @@
    <widget class="QCheckBox" name="checkBox">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>150</x>
       <y>220</y>
       <width>91</width>
       <height>16</height>
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="login_btn">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>260</y>
+      <x>150</x>
+      <y>270</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -43,8 +43,8 @@
    <widget class="QPushButton" name="cancel_btn">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>260</y>
+      <x>370</x>
+      <y>270</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -53,11 +53,11 @@
      <string>Cancel</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="id_label">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>130</y>
+      <x>150</x>
+      <y>60</y>
       <width>54</width>
       <height>16</height>
      </rect>
@@ -69,18 +69,18 @@
    <widget class="QLineEdit" name="id">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>130</y>
+      <x>220</x>
+      <y>60</y>
       <width>113</width>
       <height>20</height>
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="psw_label">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>170</y>
+      <x>150</x>
+      <y>100</y>
       <width>54</width>
       <height>12</height>
      </rect>
@@ -92,8 +92,54 @@
    <widget class="QLineEdit" name="password">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>170</y>
+      <x>220</x>
+      <y>100</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lip_label">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>140</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Local IP:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="sip_label">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>180</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Server IP:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="localip">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>140</y>
+      <width>113</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="serverip">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>180</y>
       <width>113</width>
       <height>20</height>
      </rect>
