@@ -8,12 +8,13 @@ other than expressed in the named license agreement.
 This software is distributed without any warranty.
 */
 #pragma once
+#include "macros.h"
 
 /*
  *brief use client sdk:step 1: initApp, 2: login , 3: startRunning
  */
 
-class AppContext
+class COMMU_API AppContext
 {
 public:
   static AppContext* instance();

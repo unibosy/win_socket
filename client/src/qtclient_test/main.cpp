@@ -13,11 +13,11 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
   
-  //int ret = AppContext::instance()->initApp();
-  //qDebug() << "ret="<<ret;
+  int ret = AppContext::instance()->initApp();
+  qDebug() << "ret="<<ret;
 
   //OperationManager* op = new OperationManager;
-  
+
   ClientWindow w;
   w.show();
   return a.exec();
