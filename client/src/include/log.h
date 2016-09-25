@@ -10,18 +10,29 @@ This software is distributed without any warranty.
 
 #pragma once
 
-#include "WINSOCK2.H"
-#include "winsock.h"
+#include "macros.h"
 
-#include <string>
+#include "../include/glog/logging.h"
 
-#define MAXLEN 2048
+/**
+ *brief Simplely use GLOG to log messages.
+ *
+ */
+class COMMU_API Log
+{
+public:
+  static Log* instance();
 
-#define SERVERPORT 8099
-#define SERVERIP "192.168.41.109"
+  //init app log
+  virtual void initLog(const char* logname);
 
-#define MESSAGEBUF 16384
+protected:
+ 
 
-const std::string configure_path = "./config.ini";
+private:
+  Log();
+  ~Log();
 
-#define LOGNAME "COMMU"
+  static Log* m_instance;
+
+};

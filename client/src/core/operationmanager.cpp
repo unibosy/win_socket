@@ -1,11 +1,12 @@
 #include "../include/operationmanager.h"
-
 #include "../operation_login.h"
+
+#include "../operationmanager_imp.h"
+
 
 #include <memory>
 #include <string>
 #include <iostream>
-
 
 std::mutex instance_mtx;
 
@@ -20,18 +21,20 @@ OperationManager::~OperationManager()
 
 int OperationManager::invoke(ResourceInfo* resourceinfo, OPERATIONTYPE type, void* para)
 {
-  std::auto_ptr<OperationManager> op_ptr;
+  std::auto_ptr<OperationManager_Imp> op_ptr(new OperationManager_Imp);
   switch (type)
   {
   case LOGIN:
     op_ptr.reset(new Operation_Login);
     break;
   default:
+    LOG(WARNING)<<" unknown operation type!";
     break;
   }
   try
   {
-    op_ptr->invoke_para(resourceinfo,para);
+    if(op_ptr.get())
+      op_ptr.get()->invoke_para(resourceinfo,para);
   }
   catch (...)
   {

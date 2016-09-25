@@ -10,9 +10,6 @@
     <ClInclude Include="src\include\commondef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\macros.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\operation_base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -35,6 +32,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\include\lock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\macros.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -72,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\core\lock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

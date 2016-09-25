@@ -11,13 +11,15 @@ This software is distributed without any warranty.
 
 #include "resourceinfo.h"
 #include "macros.h"
+#include "log.h"
+
 #include <mutex>
 
 //operation type
 enum OPERATIONTYPE
 {
-  LOGIN,
-  LOGOUT,
+  LOGIN =1,
+  LOGOUT =2,
   UNKNOWN_TYPE
 };
 

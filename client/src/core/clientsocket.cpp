@@ -1,6 +1,15 @@
 #include "../clientsocket.h"
 #include "../include/commondef.h"
 #include "../include/lock.h"
+//#include "../include/log.h"
+
+
+//NOT: compile error about ERROR redefined if include log.h  
+#ifdef GLOG
+#include "../include/log.h"
+#endif // GLOG
+
+
 
 
 #include <string>
@@ -12,9 +21,9 @@
 std::thread recvthread;
 std::thread sendthread;
 
-std::mutex mtx1;
 
-std::mutex instance_mutex;
+std::unique_ptr<Lock> lockInstance(new Lock);
+std::unique_ptr<Lock> lockCreateSock(new Lock);
 
 ClientSocket::ClientSocket() : m_socket(0)
 {
@@ -30,10 +39,10 @@ ClientSocket* ClientSocket::instance()
 {
   if (m_instance == nullptr)
   {
-    instance_mutex.lock();
+    lockInstance.get()->lock();
     if (m_instance == nullptr)
       m_instance = new ClientSocket;
-    instance_mutex.unlock();
+    lockInstance.get()->unLock();
   }
   return m_instance;
 }
@@ -57,11 +66,13 @@ void ClientSocket::init(const char* serverip)
 
 bool ClientSocket::createSocket(const char* serverip)
 {
-  cs_lock.lockGuard();
+  //LOG(INFO)<<"enter create socket";
+  lockCreateSock.get()->lockGuard();
   WORD sockVersion = MAKEWORD(2, 2);
   WSADATA data;
   if (WSAStartup(sockVersion, &data) != 0)
   {
+    //LOG(WARNING) << "WSAStartup error!";
     return false;
   }
 
@@ -69,6 +80,7 @@ bool ClientSocket::createSocket(const char* serverip)
   if (m_socket == INVALID_SOCKET)
   {
     std::cout << "invalid socket !" << std::endl;
+    //LOG(WARNING) << "call socket return error!";
     return false;
   }
 
@@ -79,6 +91,7 @@ bool ClientSocket::createSocket(const char* serverip)
   if (connect(m_socket, (sockaddr *)&serAddr, sizeof(serAddr)) == SOCKET_ERROR)
   {
     std::cout<<"connect error !"<<std::endl;
+    //LOG(WARNING) << "call connect return error!";
     closesocket(m_socket);
     return false;
   }

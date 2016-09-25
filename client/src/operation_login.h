@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include "../include/operationmanager.h"
+#include "../operationmanager_imp.h"
 
-class Operation_Login : public OperationManager
+class Operation_Login : public OperationManager_Imp
 {
 public:
   Operation_Login();

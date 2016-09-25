@@ -2,6 +2,10 @@
 
 ResourceInfo::ResourceInfo()
 {
+  m_rid = "";
+  m_localip = "";
+  m_password = "";
+  m_serverip = "";
 }
 
 ResourceInfo::~ResourceInfo()
@@ -26,11 +30,21 @@ const char* ResourceInfo::getPassword() const
   return m_password;
 }
 
-void ResourceInfo::setResourceIP(const char* ip)
+void ResourceInfo::setLocalIP(const char* localip)
 {
-  m_ip = ip;
+  m_localip = localip;
 }
-const char* ResourceInfo::getResourceIP() const
+const char* ResourceInfo::getLocalIP() const
 {
-  return m_ip;
+  return m_localip;
+}
+
+void ResourceInfo::setServerIP(const char* serverip)
+{
+  m_serverip = serverip;
+}
+
+const char* ResourceInfo::getServerIP() const
+{
+  return m_serverip;
 }

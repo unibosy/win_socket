@@ -75,6 +75,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <TargetName>commu_sdk</TargetName>
+    <OutDir>$(SolutionDir)\$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -102,12 +104,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./src/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>.\src\lib\glog\libglog.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -145,11 +149,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\macros.h" />
     <ClInclude Include="src\clientsocket.h" />
     <ClInclude Include="src\include\appcontext.h" />
     <ClInclude Include="src\include\commondef.h" />
     <ClInclude Include="src\include\lock.h" />
+    <ClInclude Include="src\include\log.h" />
+    <ClInclude Include="src\include\macros.h" />
     <ClInclude Include="src\include\operationmanager.h" />
     <ClInclude Include="src\include\resourceinfo.h" />
     <ClInclude Include="src\operationmanager_imp.h" />
@@ -162,6 +167,7 @@
     <ClCompile Include="src\core\appcontext.cpp" />
     <ClCompile Include="src\core\clientsocket.cpp" />
     <ClCompile Include="src\core\lock.cpp" />
+    <ClCompile Include="src\core\log.cpp" />
     <ClCompile Include="src\core\operationmanager.cpp" />
     <ClCompile Include="src\core\operationmanager_imp.cpp" />
     <ClCompile Include="src\core\operation_base.cpp" />

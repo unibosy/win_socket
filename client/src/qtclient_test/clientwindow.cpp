@@ -1,7 +1,14 @@
 #include "clientwindow.h"
 
+
+#include "operationmanager.h"
+#include "commondef.h"
+#include "appcontext.h"
+#include "macros.h"
+
 #include <qstring.h>
 #include <qdebug.h>
+#include <iostream>
 ClientWindow::ClientWindow(QWidget *parent)
   : QMainWindow(parent),
   ui(new Ui::ClientClass)
@@ -54,9 +61,33 @@ void ClientWindow::setServerIP(const QString& serverip)
 }
 void ClientWindow::loginClicked()
 {
-  qDebug() << "loginClicked =";
+  qDebug() << "loginClicked";
+  login();
+  
 }
 void ClientWindow::cancelClicked()
 {
+  qDebug() << "cancelClicked";
+  this->close();
+}
 
+int ClientWindow::login()
+{
+  int ret = AppContext::instance()->initApp();
+  qDebug() << "ret=" << ret;
+
+  std::unique_ptr<ResourceInfo> rinfo(new ResourceInfo);
+
+  rinfo.get()->setResourceID(m_id.toStdString().c_str());
+  rinfo.get()->setPassword(m_psw.toStdString().c_str());
+  rinfo.get()->setLocalIP(m_localip.toStdString().c_str());
+  rinfo.get()->setServerIP(m_serverip.toStdString().c_str());
+
+  std::auto_ptr<OperationManager> opm(new OperationManager);
+
+  int ret1 = opm.get()->invoke(rinfo.get(), LOGIN, nullptr);
+  std::cout << "invoke" << std::endl;
+  qDebug() << "login ret ="<<ret1;
+
+  return 0;
 }

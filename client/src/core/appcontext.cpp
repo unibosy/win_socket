@@ -1,4 +1,7 @@
 #include "../include/appcontext.h"
+#include "../include/log.h"
+#include "commondef.h"
+
 #include <string>
 #include <thread>
 
@@ -20,6 +23,7 @@ AppContext::~AppContext()
 
 int AppContext::initApp()
 {
+  Log::instance()->initLog(LOGNAME);
   return 0;
 }
 

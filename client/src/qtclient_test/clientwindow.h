@@ -14,8 +14,10 @@ public:
   ClientWindow(QWidget *parent = 0);
   ~ClientWindow();
 
-  void setID(std::string& id);
-  std::string getID();
+  QString getID() { return m_id; }
+  QString getPassword() { return m_psw; }
+  QString getLocalIP() { return m_localip; }
+  QString getServerIP() { return m_serverip; }
 
 private:
   Ui::ClientClass* ui;
@@ -37,6 +39,8 @@ public slots:
 
 protected:
   void initData();
+
+  int login();
 
 private:
   QString m_id;
