@@ -11,5 +11,7 @@ TODO:
 
 Done
 2016/9/16
-2/Multi-client corresponds to a server;---------done
+2/Multi-client corresponds to a server;
+2016/9/25
+5/Add log tracking; ---based on google glog
 

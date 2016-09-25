@@ -17,17 +17,14 @@ int Operation_Login::invoke_para(ResourceInfo* resourceinfo, void* para)
   LOG(INFO) << "Operation_Login invoke";
   const std::string info = "";
   const std::string localip = resourceinfo->getLocalIP();
-  LOG(INFO) << "Operation_Login invoke -1";
   const std::string resid = resourceinfo->getResouceID();
   const std::string psd = resourceinfo->getPassword();
   const std::string serverip = resourceinfo->getServerIP();
 
-  LOG(INFO) << "Operation_Login invoke -1";
+  LOG(INFO) << "do init ";
   ClientSocket::instance()->init(serverip.c_str());
 
-  LOG(INFO) << "Operation_Login invoke -2";
+  LOG(INFO) << "send login message";
   ClientSocket::instance()->setMessage("Hello World!");
-  LOG(INFO) << "Operation_Login invoke -3";
-  
   return 0;
 }
