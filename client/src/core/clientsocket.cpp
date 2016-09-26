@@ -4,13 +4,9 @@
 //#include "../include/log.h"
 
 
-//NOT: compile error about ERROR redefined if include log.h  
-#ifdef GLOG
+//NOT: compile error about ERROR redefined if include log.h
+//nedd add GLOG_NO_ABBREVIATED_SEVERITIES in Preprocessor
 #include "../include/log.h"
-#endif // GLOG
-
-
-
 
 #include <string>
 #include <thread>
@@ -35,15 +31,24 @@ ClientSocket::~ClientSocket()
 
 ClientSocket* ClientSocket::m_instance = nullptr;
 
+//2016/09/26 TOFIX: get lcokInstance always is nullptr.
 ClientSocket* ClientSocket::instance()
 {
   if (m_instance == nullptr)
   {
+    LOG(INFO)<<"get client socket instance";
+    if (lockInstance.get())
+    {
+      LOG(WARNING) << "lock instance is null!!";
+      return nullptr;
+    }
     lockInstance.get()->lock();
     if (m_instance == nullptr)
       m_instance = new ClientSocket;
+    LOG(INFO) << "unlock lock!";
     lockInstance.get()->unLock();
   }
+  LOG(INFO) << "return client socket instance";
   return m_instance;
 }
 void ClientSocket::init(const char* serverip)
@@ -66,13 +71,13 @@ void ClientSocket::init(const char* serverip)
 
 bool ClientSocket::createSocket(const char* serverip)
 {
-  //LOG(INFO)<<"enter create socket";
+  LOG(INFO)<<"enter create socket";
   lockCreateSock.get()->lockGuard();
   WORD sockVersion = MAKEWORD(2, 2);
   WSADATA data;
   if (WSAStartup(sockVersion, &data) != 0)
   {
-    //LOG(WARNING) << "WSAStartup error!";
+    LOG(WARNING) << "WSAStartup error!";
     return false;
   }
 
@@ -80,7 +85,8 @@ bool ClientSocket::createSocket(const char* serverip)
   if (m_socket == INVALID_SOCKET)
   {
     std::cout << "invalid socket !" << std::endl;
-    //LOG(WARNING) << "call socket return error!";
+    int err = GetLastError();
+    LOG(WARNING) << "call socket return error! err="<<err;
     return false;
   }
 
@@ -91,10 +97,11 @@ bool ClientSocket::createSocket(const char* serverip)
   if (connect(m_socket, (sockaddr *)&serAddr, sizeof(serAddr)) == SOCKET_ERROR)
   {
     std::cout<<"connect error !"<<std::endl;
-    //LOG(WARNING) << "call connect return error!";
+    LOG(WARNING) << "call connect return error!";
     closesocket(m_socket);
     return false;
   }
+  LOG(INFO) << "leave create socket";
   return true;
 }
 

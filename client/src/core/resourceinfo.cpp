@@ -1,4 +1,5 @@
 #include "../include/resourceinfo.h"
+#include "../include/log.h"
 
 ResourceInfo::ResourceInfo()
 {
@@ -41,7 +42,9 @@ const char* ResourceInfo::getLocalIP() const
 
 void ResourceInfo::setServerIP(const char* serverip)
 {
+  LOG(INFO) << "setServerIP 0=" << serverip;
   m_serverip = serverip;
+  LOG(INFO)<<"setServerIP="<<m_serverip;
 }
 
 const char* ResourceInfo::getServerIP() const

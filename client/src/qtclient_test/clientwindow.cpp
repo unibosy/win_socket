@@ -5,6 +5,8 @@
 #include "commondef.h"
 #include "appcontext.h"
 #include "macros.h"
+#include "log.h"
+
 
 #include <qstring.h>
 #include <qdebug.h>
@@ -74,20 +76,29 @@ void ClientWindow::cancelClicked()
 int ClientWindow::login()
 {
   int ret = AppContext::instance()->initApp();
-  qDebug() << "ret=" << ret;
 
-  std::unique_ptr<ResourceInfo> rinfo(new ResourceInfo);
+  LOG(INFO)<<"initApp result="<<m_serverip.toStdString();
 
-  rinfo.get()->setResourceID(m_id.toStdString().c_str());
-  rinfo.get()->setPassword(m_psw.toStdString().c_str());
-  rinfo.get()->setLocalIP(m_localip.toStdString().c_str());
-  rinfo.get()->setServerIP(m_serverip.toStdString().c_str());
+  //save dialog data, in case dialog disapear and data deleted.
+  std::string userid = m_id.toStdString();
+  std::string psw = m_psw.toStdString();
+  std::string localip = m_localip.toStdString();
+  std::string serverip = m_serverip.toStdString();
+  
+  ResourceInfo* rinfo = new ResourceInfo;
+  rinfo->setResourceID(userid.c_str());
+  rinfo->setPassword(psw.c_str());
+  rinfo->setLocalIP(localip.c_str());
+  //rinfo->setServerIP(m_serverip.toStdString().c_str());
+  rinfo->setServerIP(serverip.c_str());
+
 
   std::auto_ptr<OperationManager> opm(new OperationManager);
 
-  int ret1 = opm.get()->invoke(rinfo.get(), LOGIN, nullptr);
-  std::cout << "invoke" << std::endl;
-  qDebug() << "login ret ="<<ret1;
+  int result = opm.get()->invoke(rinfo, LOGIN, nullptr);
+
+  delete rinfo;
+  rinfo = nullptr;
 
   return 0;
 }
