@@ -22,14 +22,25 @@ class ClientSocket
 {
 public:
 
-  static ClientSocket* instance();
+  ClientSocket();
+  ~ClientSocket();
+
   //init the socket and start threads to send/receive messages.
-  void init(const char* serverip);
+  bool init(const char* serverip);
+
+  //stop these threads and close the socket
+  bool fini();
 
   void setMessage(const char* message);
   const char* getMessage() const;
 protected:
+
+  //stop send and receive threads
+  bool stopAllThreads();
+
   bool createSocket(const char* serverip);
+
+  bool stopSocket();
 
   void runRecvThread();
 
@@ -41,14 +52,11 @@ protected:
 
 protected:
 
-  Lock cs_lock;
+  Lock m_sendLock;
+  Lock m_recvLock;
 
 private:
 
-  ClientSocket();
-  ~ClientSocket();
-
-  static ClientSocket* m_instance;
 
   SOCKET m_socket;
 

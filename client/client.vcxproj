@@ -153,6 +153,7 @@
     <ClInclude Include="src\include\appcontext.h" />
     <ClInclude Include="src\include\commondef.h" />
     <ClInclude Include="src\include\lock.h" />
+    <ClInclude Include="src\include\lockguard.h" />
     <ClInclude Include="src\include\log.h" />
     <ClInclude Include="src\include\macros.h" />
     <ClInclude Include="src\include\operationmanager.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="src\operationmanager_imp.h" />
     <ClInclude Include="src\operation_base.h" />
     <ClInclude Include="src\operation_login.h" />
+    <ClInclude Include="src\operation_logout.h" />
     <ClInclude Include="src\operation_send_message.h" />
     <ClInclude Include="src\utility.h" />
   </ItemGroup>
@@ -167,11 +169,13 @@
     <ClCompile Include="src\core\appcontext.cpp" />
     <ClCompile Include="src\core\clientsocket.cpp" />
     <ClCompile Include="src\core\lock.cpp" />
+    <ClCompile Include="src\core\lockguard.cpp" />
     <ClCompile Include="src\core\log.cpp" />
     <ClCompile Include="src\core\operationmanager.cpp" />
     <ClCompile Include="src\core\operationmanager_imp.cpp" />
     <ClCompile Include="src\core\operation_base.cpp" />
     <ClCompile Include="src\core\operation_login.cpp" />
+    <ClCompile Include="src\core\operation_logout.cpp" />
     <ClCompile Include="src\core\resourceinfo.cpp" />
     <ClCompile Include="src\core\utility.cpp" />
   </ItemGroup>

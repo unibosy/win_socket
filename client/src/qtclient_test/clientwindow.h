@@ -38,9 +38,11 @@ public slots:
   void cancelClicked();
 
 protected:
+  
   void initData();
 
   int login();
+
 
 private:
   QString m_id;
@@ -48,7 +50,7 @@ private:
   QString m_localip;
   QString m_serverip;
 
-  
+  void closeEvent(QCloseEvent* bar);
 };
 
 #endif // CLIENTWINDOW_H

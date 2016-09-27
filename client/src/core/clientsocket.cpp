@@ -1,6 +1,6 @@
 #include "../clientsocket.h"
 #include "../include/commondef.h"
-#include "../include/lock.h"
+//#include "../include/lock.h"
 //#include "../include/log.h"
 
 
@@ -17,10 +17,6 @@
 std::thread recvthread;
 std::thread sendthread;
 
-
-std::unique_ptr<Lock> lockInstance(new Lock);
-std::unique_ptr<Lock> lockCreateSock(new Lock);
-
 ClientSocket::ClientSocket() : m_socket(0)
 {
   m_buf = new char[MESSAGEBUF];
@@ -29,32 +25,11 @@ ClientSocket::ClientSocket() : m_socket(0)
 ClientSocket::~ClientSocket()
 {}
 
-ClientSocket* ClientSocket::m_instance = nullptr;
-
-//2016/09/26 TOFIX: get lcokInstance always is nullptr.
-ClientSocket* ClientSocket::instance()
-{
-  if (m_instance == nullptr)
-  {
-    LOG(INFO)<<"get client socket instance";
-    if (lockInstance.get())
-    {
-      LOG(WARNING) << "lock instance is null!!";
-      return nullptr;
-    }
-    lockInstance.get()->lock();
-    if (m_instance == nullptr)
-      m_instance = new ClientSocket;
-    LOG(INFO) << "unlock lock!";
-    lockInstance.get()->unLock();
-  }
-  LOG(INFO) << "return client socket instance";
-  return m_instance;
-}
-void ClientSocket::init(const char* serverip)
+bool ClientSocket::init(const char* serverip)
 {
   bool result =createSocket(serverip);
-  if(result)
+  //Here there are some bugs, which cause some crash.
+  /*if(result)
   {
     runRecvThread();
     runSendThread();
@@ -63,16 +38,42 @@ void ClientSocket::init(const char* serverip)
   }
   else
   {
-    std::cout << "init failed!" << std::endl;
-  }
+    LOG(WARNING) << "init error!";
+  }*/
+  return result;
   
 }
 
+bool ClientSocket::fini()
+{
+  LOG(INFO)<<"enter fini";
+  bool bStopSock = stopSocket();
+  LOG(INFO)<<"stop socket ret="<< bStopSock;
+
+  bool bStopThreads = stopAllThreads();
+
+  LOG(INFO) << "leave fini";
+
+  return true;
+
+}
+
+bool ClientSocket::stopAllThreads()
+{
+  return true;
+}
+
+//simplely return true
+bool ClientSocket::stopSocket()
+{
+  if(m_socket)
+    closesocket(m_socket);
+  return true;
+}
 
 bool ClientSocket::createSocket(const char* serverip)
 {
   LOG(INFO)<<"enter create socket";
-  lockCreateSock.get()->lockGuard();
   WORD sockVersion = MAKEWORD(2, 2);
   WSADATA data;
   if (WSAStartup(sockVersion, &data) != 0)

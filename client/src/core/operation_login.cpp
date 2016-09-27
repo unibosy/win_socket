@@ -22,15 +22,9 @@ int Operation_Login::invoke_para(ResourceInfo* resourceinfo, void* para)
   const std::string serverip = resourceinfo->getServerIP();
 
   LOG(INFO) << "do init serverip="<<serverip;
-  if(ClientSocket::instance())
-    ClientSocket::instance()->init(serverip.c_str());
-  else
-  {
-    LOG(FATAL) << "should not happen, get client sock is nullptr!" << serverip;
-    return -1;
-  }
-
-  LOG(INFO) << "send login message";
-  ClientSocket::instance()->setMessage("Hello World!");
+  ClientSocket* cs = new ClientSocket;
+  bool ret = cs->init(serverip.c_str());
+  /*if(ret)
+    cs->setMessage("Hello World!");*/
   return 0;
 }

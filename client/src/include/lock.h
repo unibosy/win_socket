@@ -25,11 +25,6 @@ public:
   ~Lock();
 
   /**
-  * if out of function's range, mutex will be released automatically.
-  */
-  void lockGuard();
-
-  /**
   * Locks the mutex.
   */
   void lock();

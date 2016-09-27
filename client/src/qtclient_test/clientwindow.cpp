@@ -37,6 +37,7 @@ ClientWindow::~ClientWindow()
   }
 }
 
+
 void ClientWindow::initData()
 {
   m_id = "";
@@ -65,6 +66,8 @@ void ClientWindow::loginClicked()
 {
   qDebug() << "loginClicked";
   login();
+
+  LOG(INFO)<<"login end!!";
   
 }
 void ClientWindow::cancelClicked()
@@ -102,3 +105,15 @@ int ClientWindow::login()
 
   return 0;
 }
+
+void ClientWindow::closeEvent(QCloseEvent* bar)
+{
+  std::string userid = m_id.toStdString();
+  std::auto_ptr<OperationManager> opm(new OperationManager);
+  ResourceInfo* rinfo = new ResourceInfo(userid.c_str());
+  opm.get()->invoke(rinfo,LOGOUT, nullptr);
+  QWidget::closeEvent(bar);
+}
+
+
+

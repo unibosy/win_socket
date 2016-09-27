@@ -8,7 +8,10 @@ ResourceInfo::ResourceInfo()
   m_password = "";
   m_serverip = "";
 }
-
+ResourceInfo::ResourceInfo(const char* userid)
+{
+  m_rid = userid;
+}
 ResourceInfo::~ResourceInfo()
 {
 }

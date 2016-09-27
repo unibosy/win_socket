@@ -17,6 +17,7 @@ class COMMU_API ResourceInfo
 {
 public:
   ResourceInfo();
+  ResourceInfo(const char*);
   ~ResourceInfo();
 
   void setResourceID(const char* rid);

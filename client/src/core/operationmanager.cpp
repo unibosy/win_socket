@@ -1,6 +1,6 @@
 #include "../include/operationmanager.h"
 #include "../operation_login.h"
-
+#include "../operation_logout.h"
 #include "../operationmanager_imp.h"
 
 
@@ -26,6 +26,9 @@ int OperationManager::invoke(ResourceInfo* resourceinfo, OPERATIONTYPE type, voi
   {
   case LOGIN:
     op_ptr.reset(new Operation_Login);
+    break;
+  case LOGOUT:
+    op_ptr.reset(new Operation_Logout);
     break;
   default:
     LOG(WARNING)<<" unknown operation type!";

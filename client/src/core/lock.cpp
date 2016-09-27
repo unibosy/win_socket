@@ -30,11 +30,6 @@ Lock::LockImp::~LockImp()
 {
 }
 
-void Lock::LockImp::lockGuard()
-{
-  std::lock_guard<std::mutex> lock(m_mutex);
-}
-
 void Lock::LockImp::lock()
 {
   m_mutex.lock();
@@ -59,10 +54,6 @@ Lock::~Lock()
   delete m_lock;
 }
 
-void Lock::lockGuard()
-{
-  m_lock->lockGuard();
-}
 
 void Lock::lock()
 {
