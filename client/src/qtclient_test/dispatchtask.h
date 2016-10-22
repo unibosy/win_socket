@@ -4,12 +4,15 @@
 
 #include "qobject.h"
 
+
+#include "string"
+
 class DispatchTask : public QObject
 {
 public:
   ~DispatchTask();
   static DispatchTask& getInstance();
-  void dispatchChatTask(int,int);
+  void dispatchChatTask(int type,std::string& message);
 
 
 private:
@@ -18,5 +21,5 @@ private:
 public slots:
   void setValue(int value);
 signals:
-  void notiryChatMsg(int classType) { ; }
+  void notiryChatMsg(std::string& message);
 };

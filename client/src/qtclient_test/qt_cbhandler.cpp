@@ -3,13 +3,19 @@
 #include "widget.h"
 #include "dispatchtask.h"
 
-void QTCBHandler::handleChatMessage(int msgType, std::string classType)
+QTCBHandler::QTCBHandler()
 {
-  LOG(INFO)<<"enter handleChatMessage";
-  Widget* widget = new Widget;
+}
+QTCBHandler::~QTCBHandler()
+{
 
-  //DispatchTask::getInstance().dispatchChatTask(msgType,classType);
+}
 
-  //emit recvChatMessage(classType);
+void QTCBHandler::handleChatMessage(int msgType, std::string message)
+{
+  LOG(INFO)<<"enter handleChatMessage,message="<< message;
+
+  DispatchTask::getInstance().dispatchChatTask(msgType,message);
+
   LOG(INFO) << "leave handleChatMessage";
 }

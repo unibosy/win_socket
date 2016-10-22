@@ -8,8 +8,9 @@
 class QTCBHandler : public CBHandler
 {
 public:
-  QTCBHandler() { ; }
-  ~QTCBHandler() { ; }
+  QTCBHandler();
+  ~QTCBHandler();
+
   //receive various messages by msgtype and classtype
   void handleChatMessage(int msgType, std::string classType);
 

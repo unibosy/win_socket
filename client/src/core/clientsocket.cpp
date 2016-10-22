@@ -157,21 +157,19 @@ void ClientSocket::recvMessage()
 {
   //std::cout << "recvMessage thread id=" << std::this_thread::get_id() << std::endl;
   LOG(INFO) << "client receive message!";
-
+  //std::unique_ptr<CBHandler> cbh(AppContext::instance().getCBHandler());
+  CBHandler* cbh(AppContext::instance().getCBHandler());
   int iResult = -1;
   do
   {
-    LOG(INFO) << "client receive message - 1!";
     char* recvData = new char[MAXLEN];
     memset(recvData, 0, MAXLEN);
     //std::cout << "what???" << std::endl;
     iResult =  ::recv(m_socket, recvData, MAXLEN, 0);
-    LOG(INFO) << "client receive message iresult="<<iResult;
     if (iResult > 0)
     {
       LOG(INFO) << "::recv result bigger than zero,message="<<recvData;
-      std::unique_ptr<CBHandler> cbh(AppContext::instance().getCBHandler());
-      cbh.get()->handleChatMessage(1, recvData);
+      cbh->handleChatMessage(1, recvData);
 
       //recvData = nullptr;
       delete[]recvData;

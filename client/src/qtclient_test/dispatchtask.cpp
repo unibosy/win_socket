@@ -18,10 +18,10 @@ DispatchTask& DispatchTask::getInstance()
   return singleInstance;
 }
 
-void DispatchTask::dispatchChatTask(int type, int classType)
+void DispatchTask::dispatchChatTask(int type, std::string& message)
 {
   LOG(INFO)<<"dispatch Chat Task";
-  emit notiryChatMsg(classType);
+  emit notiryChatMsg(message);
 }
 
 void DispatchTask::setValue(int value)
