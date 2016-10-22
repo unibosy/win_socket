@@ -24,7 +24,7 @@ int Operation_Login::invoke_para(ResourceInfo* resourceinfo, void* para)
   LOG(INFO) << "do init serverip="<<serverip;
   ClientSocket* cs = new ClientSocket;
   bool ret = cs->init(serverip.c_str());
-  /*if(ret)
-    cs->setMessage("Hello World!");*/
+  if(ret)
+    cs->setMessage("Hello World!");
   return 0;
 }

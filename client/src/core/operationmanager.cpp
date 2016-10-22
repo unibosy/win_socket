@@ -21,6 +21,7 @@ OperationManager::~OperationManager()
 
 int OperationManager::invoke(ResourceInfo* resourceinfo, OPERATIONTYPE type, void* para)
 {
+  auto result = -1;
   std::auto_ptr<OperationManager_Imp> op_ptr(new OperationManager_Imp);
   switch (type)
   {
@@ -37,13 +38,14 @@ int OperationManager::invoke(ResourceInfo* resourceinfo, OPERATIONTYPE type, voi
   try
   {
     if(op_ptr.get())
-      op_ptr.get()->invoke_para(resourceinfo,para);
+      result = op_ptr.get()->invoke_para(resourceinfo,para);
   }
   catch (...)
   {
     std::cout << "invoke_para exception!" << std::endl;
+    return result;
   }
-  return 0;
+  return result;
 }
 int OperationManager::invoke_para(ResourceInfo* resourceinfo, void* para)
 {

@@ -1,5 +1,5 @@
 #include "clientwindow.h"
-
+#include "readfile.h"
 
 #include "operationmanager.h"
 #include "commondef.h"
@@ -15,14 +15,29 @@ ClientWindow::ClientWindow(QWidget *parent)
   : QMainWindow(parent),
   ui(new Ui::ClientClass)
 {
+  label = new QLabel(this);
 
+  m_widget = new Widget;
   initData();
   ui->setupUi(this);
+
   //connect the signals with slots
   connect(ui->id, SIGNAL(textEdited(const QString&)), this, SLOT(setID(const QString&)));
+  
   connect(ui->password, SIGNAL(textEdited(const QString&)), this, SLOT(setPassword(const QString&)));
-  connect(ui->localip, SIGNAL(textEdited(const QString&)), this, SLOT(setLocalIP(const QString&)));
-  connect(ui->serverip, SIGNAL(textEdited(const QString&)), this, SLOT(setServerIP(const QString&)));
+
+  if ("" != m_localip)
+  {
+    ui->localip->setText(m_localip);
+  }
+  else
+    connect(ui->localip, SIGNAL(textEdited(const QString&)), this, SLOT(setLocalIP(const QString&)));
+  if ("" != m_serverip)
+  {
+    ui->serverip->setText(m_serverip);
+  }
+  else
+    connect(ui->serverip, SIGNAL(textEdited(const QString&)), this, SLOT(setServerIP(const QString&)));
   
   connect(ui->login_btn, SIGNAL(clicked()), this, SLOT(loginClicked()));
   connect(ui->cancel_btn, SIGNAL(clicked()), this, SLOT(cancelClicked()));
@@ -35,15 +50,30 @@ ClientWindow::~ClientWindow()
     delete ui;
     ui = nullptr;
   }
+  if (m_widget)
+  {
+    delete m_widget;
+  }
 }
 
 
 void ClientWindow::initData()
 {
+  //std::auto_ptr<ReadFile> rf(new ReadFile(""));
+  //ReadFile* rf = new ReadFile("");
+  std::string configname = "config.ini";
+  std::unique_ptr<ReadConfig> rc(new ReadConfig(configname));
+  rc.get()->readText();
+  m_localip = QString::fromStdString( rc.get()->getServerIP() );
+  m_serverip = QString::fromStdString(rc.get()->getClientIP());
+
+  LOG(INFO) << "m_localip=" << m_localip.toStdString() << ",m_serverip=" << m_serverip.toStdString();
+
+
   m_id = "";
   m_psw = "";
-  m_localip = "";
-  m_serverip = "";
+  //m_localip = "";
+  //m_serverip = "";
 }
 void ClientWindow::setID(const QString& id)
 {
@@ -66,7 +96,7 @@ void ClientWindow::loginClicked()
 {
   qDebug() << "loginClicked";
   login();
-
+  ui->login_btn->setDisabled(true);
   LOG(INFO)<<"login end!!";
   
 }
@@ -76,33 +106,43 @@ void ClientWindow::cancelClicked()
   this->close();
 }
 
+//Open new dialog from mainwindow
+
 int ClientWindow::login()
 {
-  int ret = AppContext::instance()->initApp();
+  label->setObjectName(QStringLiteral("qwe"));
+  label->setText("aaaaaaaaaaaaaaaa");
+  label->setText(QApplication::translate("ClientClass", "Local IP:", 0));
+  label->show();
+
+  int ret = AppContext::instance().initApp();
 
   LOG(INFO)<<"initApp result="<<m_serverip.toStdString();
-
+  CBHandler* detailCBHandler = new QTCBHandler;
+  AppContext::instance().setCBHandler(detailCBHandler);
   //save dialog data, in case dialog disapear and data deleted.
   std::string userid = m_id.toStdString();
   std::string psw = m_psw.toStdString();
   std::string localip = m_localip.toStdString();
   std::string serverip = m_serverip.toStdString();
   
-  ResourceInfo* rinfo = new ResourceInfo;
-  rinfo->setResourceID(userid.c_str());
-  rinfo->setPassword(psw.c_str());
-  rinfo->setLocalIP(localip.c_str());
-  //rinfo->setServerIP(m_serverip.toStdString().c_str());
-  rinfo->setServerIP(serverip.c_str());
-
+  std::unique_ptr<ResourceInfo> rinfo(new ResourceInfo);
+  rinfo.get()->setResourceID(userid.c_str());
+  rinfo.get()->setPassword(psw.c_str());
+  rinfo.get()->setLocalIP(localip.c_str());
+  rinfo.get()->setServerIP(serverip.c_str());
 
   std::auto_ptr<OperationManager> opm(new OperationManager);
 
-  int result = opm.get()->invoke(rinfo, LOGIN, nullptr);
+  int result = opm.get()->invoke(rinfo.get(), LOGIN, nullptr);
 
-  delete rinfo;
-  rinfo = nullptr;
+  LOG(INFO)<<"login result="<<result;
+  if (result == 0)
+  {
+    this->hide();
 
+    m_widget->show();
+  }
   return 0;
 }
 

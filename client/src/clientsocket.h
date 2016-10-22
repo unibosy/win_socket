@@ -59,8 +59,6 @@ private:
 
 
   SOCKET m_socket;
-
   char* m_buf;
-
 
 };

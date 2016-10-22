@@ -34,7 +34,7 @@ public:
   
   OperationManager();
   ~OperationManager();
-
+  //return 0 means successfuly, otherwise means failed
   virtual int invoke(ResourceInfo* resourceinfo, OPERATIONTYPE type, void* para);
 
   virtual int invoke_para(ResourceInfo* resourceinfo, void* para);

@@ -9,6 +9,7 @@ This software is distributed without any warranty.
 */
 #pragma once
 #include "macros.h"
+#include "cbhandler.h"
 
 /*
  *brief use client sdk:step 1: initApp, 2: login , 3: startRunning
@@ -17,11 +18,15 @@ This software is distributed without any warranty.
 class COMMU_API AppContext
 {
 public:
-  static AppContext* instance();
+  static AppContext& instance();
   int initApp();
   int startRunning();
+
+  void setCBHandler(CBHandler*cbhander);
+  CBHandler* getCBHandler();
 private:
-  static AppContext* m_appcontext;
   AppContext();
   ~AppContext();
+
+  CBHandler* m_cbhandler;
 };

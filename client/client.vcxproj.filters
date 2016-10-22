@@ -46,6 +46,15 @@
     <ClInclude Include="src\include\lockguard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\include\cbhandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\reportmessage\message.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\reportmessage\chatmessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -90,6 +99,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\core\operation_logout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

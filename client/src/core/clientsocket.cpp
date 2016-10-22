@@ -1,12 +1,10 @@
 #include "../clientsocket.h"
 #include "../include/commondef.h"
-//#include "../include/lock.h"
-//#include "../include/log.h"
 
-
-//NOT: compile error about ERROR redefined if include log.h
+//NOTE: compile error about ERROR redefined if include log.h
 //nedd add GLOG_NO_ABBREVIATED_SEVERITIES in Preprocessor
 #include "../include/log.h"
+#include "appcontext.h"
 
 #include <string>
 #include <thread>
@@ -20,16 +18,22 @@ std::thread sendthread;
 ClientSocket::ClientSocket() : m_socket(0)
 {
   m_buf = new char[MESSAGEBUF];
-  memset(m_buf, 0, strlen(m_buf));
+  //strlen string length, not include '\0', sizeof array memory size
+  memset(m_buf, 0, MESSAGEBUF*sizeof(char));
 }
 ClientSocket::~ClientSocket()
-{}
+{
+  if (m_buf)
+  {
+    delete m_buf;
+  }
+}
 
 bool ClientSocket::init(const char* serverip)
 {
-  bool result =createSocket(serverip);
+  bool result = createSocket(serverip);
   //Here there are some bugs, which cause some crash.
-  /*if(result)
+  if(result)
   {
     runRecvThread();
     runSendThread();
@@ -39,7 +43,7 @@ bool ClientSocket::init(const char* serverip)
   else
   {
     LOG(WARNING) << "init error!";
-  }*/
+  }
   return result;
   
 }
@@ -151,17 +155,24 @@ void ClientSocket::sendMessage()
 
 void ClientSocket::recvMessage()
 {
-  std::cout << "recvMessage thread id=" << std::this_thread::get_id() << std::endl;
+  //std::cout << "recvMessage thread id=" << std::this_thread::get_id() << std::endl;
+  LOG(INFO) << "client receive message!";
+
   int iResult = -1;
   do
   {
+    LOG(INFO) << "client receive message - 1!";
     char* recvData = new char[MAXLEN];
     memset(recvData, 0, MAXLEN);
     //std::cout << "what???" << std::endl;
     iResult =  ::recv(m_socket, recvData, MAXLEN, 0);
+    LOG(INFO) << "client receive message iresult="<<iResult;
     if (iResult > 0)
     {
-      std::cout << "receive message=" << recvData << std::endl;
+      LOG(INFO) << "::recv result bigger than zero,message="<<recvData;
+      std::unique_ptr<CBHandler> cbh(AppContext::instance().getCBHandler());
+      cbh.get()->handleChatMessage(1, recvData);
+
       //recvData = nullptr;
       delete[]recvData;
       recvData = nullptr;

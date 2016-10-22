@@ -3,8 +3,9 @@
 
 #include <QtWidgets/QMainWindow>
 #include "ui_client.h"
-
 #include <string>
+
+#include "widget.h"
 
 class ClientWindow : public QMainWindow
 {
@@ -19,8 +20,11 @@ public:
   QString getLocalIP() { return m_localip; }
   QString getServerIP() { return m_serverip; }
 
+  QLabel* label;
+
 private:
   Ui::ClientClass* ui;
+  Widget* m_widget;
 
   //add slots
 public slots:

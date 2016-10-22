@@ -5,12 +5,10 @@
 #include <string>
 #include <thread>
 
-
-AppContext* AppContext::m_appcontext = nullptr;
-
-AppContext* AppContext::instance()
+AppContext& AppContext::instance()
 {
-  return nullptr;
+  static AppContext appcontext;
+  return appcontext;
 }
 
 AppContext::AppContext()
@@ -30,4 +28,15 @@ int AppContext::initApp()
 int AppContext::startRunning()
 {
   return 0;
+}
+
+//const after a function declaration means the function is not allowed to changed any class members
+//except ones marked mutable
+void AppContext::setCBHandler(CBHandler* cbhandler)
+{
+  m_cbhandler = cbhandler;
+}
+CBHandler* AppContext::getCBHandler()
+{
+  return m_cbhandler;
 }

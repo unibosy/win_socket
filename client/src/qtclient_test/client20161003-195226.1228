@@ -1,0 +1,13 @@
+Log file created at: 2016/10/03 19:52:26
+Running on machine: PERRIER-PC
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I1003 19:52:26.180165  4984 clientwindow.cpp:95] initApp result=192.168.41.110
+I1003 19:52:26.181164  4984 resourceinfo.cpp:48] setServerIP 0=192.168.41.110
+I1003 19:52:26.181164  4984 resourceinfo.cpp:50] setServerIP=192.168.41.110
+I1003 19:52:27.807257  4984 operation_login.cpp:17] Operation_Login invoke
+I1003 19:52:27.807257  4984 operation_login.cpp:24] do init serverip=192.168.41.110
+I1003 19:52:27.807257  4984 clientsocket.cpp:76] enter create socket
+W1003 19:52:28.840317  4984 clientsocket.cpp:101] call connect return error!
+W1003 19:52:28.841317  4984 clientsocket.cpp:41] init error!
+I1003 19:52:28.841317  4984 clientwindow.cpp:82] login end!!
+F1003 19:52:50.584884  4984 utilities.cc:322] Check failed: !IsGoogleLoggingInitialized() You called InitGoogleLogging() twice!

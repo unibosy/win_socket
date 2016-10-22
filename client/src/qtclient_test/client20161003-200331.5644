@@ -1,0 +1,9 @@
+Log file created at: 2016/10/03 20:03:31
+Running on machine: PERRIER-PC
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I1003 20:03:31.768705  6920 clientwindow.cpp:95] initApp result=192.168.41.110
+I1003 20:03:31.769706  6920 resourceinfo.cpp:48] setServerIP 0=192.168.41.110
+I1003 20:03:31.769706  6920 resourceinfo.cpp:50] setServerIP=192.168.41.110
+I1003 20:03:31.769706  6920 operation_login.cpp:17] Operation_Login invoke
+I1003 20:03:31.770705  6920 operation_login.cpp:24] do init serverip=192.168.41.110
+I1003 20:03:31.770705  6920 clientsocket.cpp:76] enter create socket

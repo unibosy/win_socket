@@ -1369,6 +1369,9 @@ GOOGLE_GLOG_DLL_DECL void FlushLogFilesUnsafe(LogSeverity min_severity);
 GOOGLE_GLOG_DLL_DECL void SetLogDestination(LogSeverity severity,
                                             const char* base_filename);
 
+GOOGLE_GLOG_DLL_DECL void SetLogName(LogSeverity severity,
+  const char* logname);
+
 //
 // Set the basename of the symlink to the latest log file at a given
 // severity.  If symlink_basename is empty, do not make a symlink.  If

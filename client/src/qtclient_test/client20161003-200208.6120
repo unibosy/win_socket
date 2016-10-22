@@ -1,0 +1,11 @@
+Log file created at: 2016/10/03 20:02:08
+Running on machine: PERRIER-PC
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I1003 20:02:08.457649  6148 clientwindow.cpp:95] initApp result=192.168.41.110
+I1003 20:02:08.458649  6148 resourceinfo.cpp:48] setServerIP 0=192.168.41.110
+I1003 20:02:08.458649  6148 resourceinfo.cpp:50] setServerIP=192.168.41.110
+I1003 20:02:08.459650  6148 operation_login.cpp:17] Operation_Login invoke
+I1003 20:02:08.459650  6148 operation_login.cpp:24] do init serverip=192.168.41.110
+I1003 20:02:08.459650  6148 clientsocket.cpp:76] enter create socket
+W1003 20:02:09.608716  6148 clientsocket.cpp:101] call connect return error!
+W1003 20:02:09.609715  6148 clientsocket.cpp:41] init error!

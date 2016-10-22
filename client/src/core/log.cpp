@@ -37,9 +37,7 @@ void Log::initLog(const char* logname)
   FLAGS_minloglevel = 0;
   FLAGS_logbufsecs = 0; // write all messages into one file
   std::string filename = logname;
-  std::string client_filename = "./client_sdk.log";
-  //std::string warning_filename = "./warning.log";
+  std::string client_filename = "client";
   google::SetLogDestination(0, client_filename.c_str());
-  //google::SetLogDestination(1, warning_filename.c_str());
 
 }
