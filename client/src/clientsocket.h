@@ -22,7 +22,8 @@ class ClientSocket
 {
 public:
 
-  ClientSocket();
+  static ClientSocket& instance();
+
   ~ClientSocket();
 
   //init the socket and start threads to send/receive messages.
@@ -57,7 +58,9 @@ protected:
 
 private:
 
+  static ClientSocket* m_instance;
 
+  ClientSocket();
   SOCKET m_socket;
   char* m_buf;
 

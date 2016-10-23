@@ -15,6 +15,13 @@
 std::thread recvthread;
 std::thread sendthread;
 
+//thread-safe after c++11
+ClientSocket& ClientSocket::instance()
+{
+  static ClientSocket cs;
+  return cs;
+}
+
 ClientSocket::ClientSocket() : m_socket(0)
 {
   m_buf = new char[MESSAGEBUF];

@@ -28,6 +28,9 @@ public:
   void prepareDatas();
   void prepareUI();
 
+  //send message
+  void sendMessage();
+
 public:
   QLabel* m_qlabel;
   QLineEdit* m_qledit;

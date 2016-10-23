@@ -180,6 +180,7 @@
     <ClCompile Include="src\core\operation_base.cpp" />
     <ClCompile Include="src\core\operation_login.cpp" />
     <ClCompile Include="src\core\operation_logout.cpp" />
+    <ClCompile Include="src\core\operation_send_message.cpp" />
     <ClCompile Include="src\core\resourceinfo.cpp" />
     <ClCompile Include="src\core\utility.cpp" />
   </ItemGroup>

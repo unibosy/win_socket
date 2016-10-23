@@ -20,6 +20,7 @@ enum OPERATIONTYPE
 {
   LOGIN =1,
   LOGOUT =2,
+  SEND_MSG,
   UNKNOWN_TYPE
 };
 
