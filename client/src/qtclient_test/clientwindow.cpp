@@ -17,7 +17,6 @@ ClientWindow::ClientWindow(QWidget *parent)
 {
   label = new QLabel(this);
 
-  m_widget = new Widget;
   initData();
   ui->setupUi(this);
 
@@ -140,8 +139,9 @@ int ClientWindow::login()
   if (result == 0)
   {
     this->hide();
-
+    m_widget = new Widget();
     m_widget->show();
+    m_widget->resize(600,600);
   }
   return 0;
 }

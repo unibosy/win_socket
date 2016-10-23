@@ -68,6 +68,9 @@
     <ClCompile Include="widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dispatchtask.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="client.ui">
@@ -85,15 +88,15 @@
     <CustomBuild Include="widget.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="dispatchtask.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_client.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="readfile.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="dispatchtask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

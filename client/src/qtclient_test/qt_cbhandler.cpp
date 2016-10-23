@@ -15,7 +15,7 @@ void QTCBHandler::handleChatMessage(int msgType, std::string message)
 {
   LOG(INFO)<<"enter handleChatMessage,message="<< message;
 
-  DispatchTask::getInstance().dispatchChatTask(msgType,message);
+  DispatchTask::getInstance()->dispatchChatTask(msgType,message);
 
   LOG(INFO) << "leave handleChatMessage";
 }

@@ -2,29 +2,36 @@
 
 #include "log.h"
 
+DispatchTask* DispatchTask::m_dt = nullptr;
+
 DispatchTask::DispatchTask()
 {
-  connect(this,SIGNAL(notiryChatMsg(int)),this, SLOT(setValue(int)));
+  //connect(this,SIGNAL(notiryChatMsg(int)),this, SLOT(setValue(int)));
+  connect(this, SIGNAL(notifyChatMsg(const char*)),this,SLOT(setValue(const char*)));
 }
 DispatchTask::~DispatchTask()
 {
 
 }
 
-//thread-safe in C++11 
-DispatchTask& DispatchTask::getInstance()
+//thread-safe in C++11
+/*DispatchTask& DispatchTask::getInstance()
 {
   static DispatchTask singleInstance;
   return singleInstance;
-}
+}*/
 
 void DispatchTask::dispatchChatTask(int type, std::string& message)
 {
   LOG(INFO)<<"dispatch Chat Task";
-  emit notiryChatMsg(message);
+  emit notifyChatMsg(message.c_str());
 }
 
-void DispatchTask::setValue(int value)
+void DispatchTask::setValue(const char* message)
 {
-  LOG(INFO) << "setvalue="<<value;
+  LOG(INFO) << "setvalue="<< message;
 }
+/*void DispatchTask::notiryChatMsg(std::string& message)
+{
+  LOG(INFO) << "notifyChatMsg" << message;
+}*/
