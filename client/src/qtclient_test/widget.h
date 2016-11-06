@@ -32,8 +32,12 @@ public:
   void sendMessage();
 
 public:
-  QLabel* m_qlabel;
-  QLineEdit* m_qledit;
+  QLabel* m_recvQlabel;
+  QLineEdit* m_recvQledit;
+
+  //send
+  QLabel* m_sendQlabel;
+  QLineEdit* m_sendQledit;
 
 //protected:
 

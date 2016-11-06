@@ -21,7 +21,7 @@ public:
     }
     return m_dt;
   }
-  void dispatchChatTask(int type,std::string& message);
+  void dispatchChatTask(const int& type, const std::string& message);
 
 
 private:

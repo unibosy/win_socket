@@ -21,9 +21,9 @@ DispatchTask::~DispatchTask()
   return singleInstance;
 }*/
 
-void DispatchTask::dispatchChatTask(int type, std::string& message)
+void DispatchTask::dispatchChatTask(const int& type, const std::string& message)
 {
-  LOG(INFO)<<"dispatch Chat Task";
+  LOG(INFO)<<"dispatch Chat Task,and message="<<message;
   emit notifyChatMsg(message.c_str());
 }
 
@@ -31,7 +31,3 @@ void DispatchTask::setValue(const char* message)
 {
   LOG(INFO) << "setvalue="<< message;
 }
-/*void DispatchTask::notiryChatMsg(std::string& message)
-{
-  LOG(INFO) << "notifyChatMsg" << message;
-}*/

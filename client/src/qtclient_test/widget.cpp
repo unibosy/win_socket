@@ -18,43 +18,61 @@ Widget::~Widget()
 
 void Widget::prepareDatas()
 {
-  m_qlabel = new QLabel(this);
-  m_qledit = new QLineEdit(this);
+  m_recvQlabel = new QLabel(this);
+  m_recvQledit = new QLineEdit(this);
+  
+  m_sendQlabel = new QLabel(this);
+  m_sendQledit = new QLineEdit(this);
 }
 void Widget::prepareConnects()
 {
   LOG(INFO) << "prepareConnects";
   connect(DispatchTask::getInstance(), SIGNAL(notifyChatMsg(const char*)),
     this, SLOT(recvChatMessage(const char*)));
+  //connect signal slot params :const char*
+  //connect(this, SIGNAL(toShowWhatRecv(const char*)), this, SLOT(displayMessage(const char*)));
+  
+  connect(m_recvQledit, SIGNAL(toShowWhatRecv(const char*)), this, SLOT(setText(const char*)));
 
-  connect(this, SIGNAL(toShowWhatRecv(const char*)), this, SLOT(displayMessage(const char*)));
+  //send connect and slot
+  connect(m_sendQledit, SIGNAL(setText(const char*)), this, SLOT(sendMessage(const char*)));
 }
 
 
 void Widget::prepareUI()
 {
-  m_qlabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);//set appearance
-  m_qlabel->setObjectName("QLabel");
-  m_qlabel->setText("received message:");
-  m_qlabel->setAlignment(Qt::AlignBottom | Qt::AlignRight); // set alignment
-  m_qlabel->setGeometry(QRect(20, 20, 110, 30)); //set size and position
-  m_qlabel->show();
+  m_recvQlabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);//set appearance
+  m_recvQlabel->setObjectName("QLabel");
+  m_recvQlabel->setText("Received Message:");
+  m_recvQlabel->setAlignment(Qt::AlignBottom | Qt::AlignRight); // set alignment
+  m_recvQlabel->setGeometry(QRect(20, 20, 110, 30)); //set size and position
+  m_recvQlabel->show();
 
-  m_qledit->setGeometry(QRect(150,20,400,30));
+  m_recvQledit->setGeometry(QRect(150,20,400,30));
+
+  //send layout
+  m_sendQlabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);//set appearance
+  m_sendQlabel->setObjectName("QLabel");
+  m_sendQlabel->setText("Send Message:");
+  m_sendQlabel->setAlignment(Qt::AlignBottom | Qt::AlignRight); // set alignment
+  m_sendQlabel->setGeometry(QRect(20,60,110,30));
+  m_sendQlabel->show();
+  m_sendQledit->setGeometry(QRect(150, 60, 400, 30));
 
 }
 void Widget::recvChatMessage(const char* message)
 {
   LOG(INFO) << "this widget receive a new message="<< message;
   dispalyMessage(message);
-  emit toShowWhatRecv(message);
+  //why here connet and slot does not work???
+  //emit toShowWhatRecv(message);
 }
 
 
 void Widget::dispalyMessage(const char* message)
 {
   LOG(INFO) << "this widget receive a new message11111=" << message;
-  this->m_qledit->setText(message);
+  this->m_recvQledit->setText(message);
 
 }
 
