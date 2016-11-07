@@ -16,8 +16,10 @@ ClientWindow::ClientWindow(QWidget *parent)
   ui(new Ui::ClientClass)
 {
   label = new QLabel(this);
-
+  
+  initStye(ui);
   initData();
+
   ui->setupUi(this);
 
   //connect the signals with slots
@@ -55,6 +57,17 @@ ClientWindow::~ClientWindow()
   }
 }
 
+void ClientWindow::initStye(Ui::ClientClass* ui)
+{
+  ui->id->setPlaceholderText("User ID");
+  ui->id->setEchoMode(QLineEdit::Normal);
+  ui->password->setPlaceholderText("Password");
+  ui->password->setEchoMode(QLineEdit::Normal);
+  ui->localip->setPlaceholderText("Local IP");
+  ui->localip->setEchoMode(QLineEdit::Normal);
+  ui->serverip->setPlaceholderText("Server IP");
+  ui->serverip->setEchoMode(QLineEdit::Normal);
+}
 
 void ClientWindow::initData()
 {

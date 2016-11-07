@@ -43,6 +43,7 @@ public slots:
 
 protected:
   
+  void initStye(Ui::ClientClass* ui);
   void initData();
 
   int login();

@@ -35,7 +35,9 @@ void Widget::prepareConnects()
   connect(m_recvQledit, SIGNAL(toShowWhatRecv(const char*)), this, SLOT(setText(const char*)));
 
   //send connect and slot
-  connect(m_sendQledit, SIGNAL(setText(const char*)), this, SLOT(sendMessage(const char*)));
+  //connect(m_sendQledit, SIGNAL(textFinished(const char*)), this, SLOT(sendMessage(const char*)));
+
+  connect(m_sendQledit, SIGNAL(textEdited(const QString&)), this, SLOT(sendMessage(const QString&)));
 }
 
 
@@ -57,7 +59,11 @@ void Widget::prepareUI()
   m_sendQlabel->setAlignment(Qt::AlignBottom | Qt::AlignRight); // set alignment
   m_sendQlabel->setGeometry(QRect(20,60,110,30));
   m_sendQlabel->show();
+
   m_sendQledit->setGeometry(QRect(150, 60, 400, 30));
+  m_sendQledit->setPlaceholderText("SendMessage");
+  m_sendQledit->setEchoMode(QLineEdit::Normal);
+  m_sendQledit->editingFinished();
 
 }
 void Widget::recvChatMessage(const char* message)
@@ -76,8 +82,9 @@ void Widget::dispalyMessage(const char* message)
 
 }
 
-void Widget::sendMessage()
+void Widget::sendMessage(QString& qstr)
 {
+  LOG(INFO)<< "send message"<<qstr.toStdString();
   std::unique_ptr<OperationManager> om(new OperationManager);
   std::unique_ptr<ResourceInfo> resinfo(new ResourceInfo());
 

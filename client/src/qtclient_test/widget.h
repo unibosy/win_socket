@@ -29,7 +29,7 @@ public:
   void prepareUI();
 
   //send message
-  void sendMessage();
+  void sendMessage(QString& qstr);
 
 public:
   QLabel* m_recvQlabel;
