@@ -17,10 +17,10 @@ ClientWindow::ClientWindow(QWidget *parent)
 {
   label = new QLabel(this);
   
-  initStye(ui);
-  initData();
-
   ui->setupUi(this);
+
+  initData();
+  initStye(ui);
 
   //connect the signals with slots
   connect(ui->id, SIGNAL(textEdited(const QString&)), this, SLOT(setID(const QString&)));
