@@ -90,11 +90,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;GLOG_NO_ABBREVIATED_SEVERITIES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\src\include\json;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>.\src\lib\json\json.lib;.\src\lib\glog\libglog.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <TargetMachine>MachineX86</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -110,7 +114,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>.\src\lib\glog\libglog.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>.\src\lib\glog\libglog.lib;C:\Users\perrier\Documents\Visual Studio 2015\Projects\win_socket\client\src\lib\json\json.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
   </ItemDefinitionGroup>
@@ -161,6 +165,8 @@
     <ClInclude Include="src\include\reportmessage\chatmessage.h" />
     <ClInclude Include="src\include\reportmessage\message.h" />
     <ClInclude Include="src\include\resourceinfo.h" />
+    <ClInclude Include="src\include\uiparameter.h" />
+    <ClInclude Include="src\jsonconvert.h" />
     <ClInclude Include="src\operationmanager_imp.h" />
     <ClInclude Include="src\operation_base.h" />
     <ClInclude Include="src\operation_login.h" />
@@ -171,6 +177,7 @@
   <ItemGroup>
     <ClCompile Include="src\core\appcontext.cpp" />
     <ClCompile Include="src\core\clientsocket.cpp" />
+    <ClCompile Include="src\core\jsonconvert.cpp" />
     <ClCompile Include="src\core\lock.cpp" />
     <ClCompile Include="src\core\lockguard.cpp" />
     <ClCompile Include="src\core\log.cpp" />
@@ -183,6 +190,9 @@
     <ClCompile Include="src\core\operation_send_message.cpp" />
     <ClCompile Include="src\core\resourceinfo.cpp" />
     <ClCompile Include="src\core\utility.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="src\lib\json\json.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

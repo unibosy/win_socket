@@ -18,8 +18,10 @@ std::thread thread_pool[CLIENTNUMBER];
 
 static int client_number = 0;
 
-ServerSocket::ServerSocket() : m_server_socket(0), m_client_socket(0)
+ServerSocket::ServerSocket() : m_server_socket(0), m_client_socket(0), m_buf(0)
 {
+  m_buf = new char[MAXLEN+1];
+  memset(m_buf, 0, MAXLEN+1);
 }
 ServerSocket::~ServerSocket()
 {
@@ -163,27 +165,27 @@ void ServerSocket::recvMessage(SOCKET client_sock)
   int iResult = -1;
   do
   {
-    char* recvData = new char[MAXLEN];
-    memset(recvData, 0, MAXLEN);
-    iResult = ::recv(client_sock, recvData, MAXLEN, 0);
+
+    iResult = ::recv(client_sock, m_buf, MAXLEN, 0);
     if ( iResult > 0 )
     {
-      std::cout << "receive message="<<recvData << std::endl;
-      delete []recvData;
-      recvData = nullptr;
+      m_buf[iResult] = '\0';
+      std::cout << "receive message="<<m_buf << std::endl;
+      //delete []m_buf;
+      //m_buf = nullptr;
     }
     else if( iResult == 0 )
     {
       std::cout << "recvMessage connection closed!" << std::endl;
-      delete []recvData;
-      recvData = nullptr;
+      //delete []m_buf;
+      //m_buf = nullptr;
       Helper::getInstance()->showLastErrMessage();
     }
     else
     {
       std::cout << "recv failed!" << std::endl;
-      delete []recvData;
-      recvData = nullptr;
+      //delete []m_buf;
+      //m_buf = nullptr;
       Helper::getInstance()->showLastErrMessage();
     }
     //sleep 10ms

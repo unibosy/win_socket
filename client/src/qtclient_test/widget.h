@@ -4,9 +4,8 @@
 #include "qlabel.h"
 #include "qlineedit.h"
 
-
 #include "qt_cbhandler.h"
-
+#include "ui_client.h"
 
 class Widget : public QWidget/*, public QObject*/
 {
@@ -14,22 +13,24 @@ class Widget : public QWidget/*, public QObject*/
 
   friend class QTCBHandler;
 public:
-  public slots :
-    void recvChatMessage(const char*);
-    void dispalyMessage(const char*);
+public slots :
+  void recvChatMessage(const char*);
+  //void showWhatRecv(const char*);
+  void dispalyMessage(const char*);
+
+  //send message
+  void sendMessage(const QString& qstr);
 signals:
-  void toShowWhatRecv(const char*);
+  void emitShowWhatRecv(const char*);
+  //QLineEdit::returnPressed(QString&);
 public:
   //Widget(QWidget* parent = 0);
-  Widget();
+  Widget(QWidget* parent = 0);
   ~Widget();
 
   void prepareConnects();
   void prepareDatas();
   void prepareUI();
-
-  //send message
-  void sendMessage(QString& qstr);
 
 public:
   QLabel* m_recvQlabel;

@@ -11,6 +11,7 @@
 #include <qstring.h>
 #include <qdebug.h>
 #include <iostream>
+
 ClientWindow::ClientWindow(QWidget *parent)
   : QMainWindow(parent),
   ui(new Ui::ClientClass)
@@ -152,7 +153,7 @@ int ClientWindow::login()
   if (result == 0)
   {
     this->hide();
-    m_widget = new Widget();
+    m_widget = new Widget(this);
     m_widget->show();
     m_widget->resize(600,600);
   }

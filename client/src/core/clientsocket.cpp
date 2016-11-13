@@ -4,7 +4,7 @@
 //NOTE: compile error about ERROR redefined if include log.h
 //nedd add GLOG_NO_ABBREVIATED_SEVERITIES in Preprocessor
 #include "../include/log.h"
-#include "appcontext.h"
+#include "../include/appcontext.h"
 
 #include <string>
 #include <thread>
@@ -184,13 +184,13 @@ void ClientSocket::recvMessage()
     }
     else if (iResult == 0)
     {
-      std::cout << "recvMessage connection closed!" << std::endl;
+      LOG(INFO)<<"recvMessage connection closed!";
       delete[]recvData;
       recvData = nullptr;
     }
     else
     {
-      std::cout << "recv failed!" << std::endl;
+      LOG(INFO) << "recv failed!";
       delete[]recvData;
       recvData = nullptr;
     }

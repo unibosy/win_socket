@@ -4,8 +4,8 @@
 
 #include "log.h"
 
-Widget::Widget()
-{
+Widget::Widget(QWidget* parent)
+{ 
   prepareDatas();
   prepareConnects();
   prepareUI();
@@ -32,12 +32,13 @@ void Widget::prepareConnects()
   //connect signal slot params :const char*
   //connect(this, SIGNAL(toShowWhatRecv(const char*)), this, SLOT(displayMessage(const char*)));
   
-  connect(m_recvQledit, SIGNAL(toShowWhatRecv(const char*)), this, SLOT(setText(const char*)));
+  //qineedit existed in "this"
+  //connect(this, SIGNAL(emitShowWhatRecv(const char*)), this, SLOT(showWhatRecv(const char*)));
 
   //send connect and slot
   //connect(m_sendQledit, SIGNAL(textFinished(const char*)), this, SLOT(sendMessage(const char*)));
 
-  connect(m_sendQledit, SIGNAL(textEdited(const QString&)), this, SLOT(sendMessage(const QString&)));
+  connect(this->m_sendQledit, SIGNAL(textChanged(const QString&)), this, SLOT(sendMessage(const QString&)));
 }
 
 
@@ -70,10 +71,7 @@ void Widget::recvChatMessage(const char* message)
 {
   LOG(INFO) << "this widget receive a new message="<< message;
   dispalyMessage(message);
-  //why here connet and slot does not work???
-  //emit toShowWhatRecv(message);
 }
-
 
 void Widget::dispalyMessage(const char* message)
 {
@@ -82,7 +80,7 @@ void Widget::dispalyMessage(const char* message)
 
 }
 
-void Widget::sendMessage(QString& qstr)
+void Widget::sendMessage(const QString& qstr)
 {
   LOG(INFO)<< "send message"<<qstr.toStdString();
   std::unique_ptr<OperationManager> om(new OperationManager);

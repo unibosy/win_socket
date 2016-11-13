@@ -1,5 +1,4 @@
-#include "reportmessage/message.h"
-
+#include "../include/reportmessage/message.h"
 
 Message::Message() : m_userid(nullptr), m_username(nullptr), m_message_type(-1)
 {

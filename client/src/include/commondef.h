@@ -25,3 +25,10 @@ This software is distributed without any warranty.
 const std::string configure_path = "./config.ini";
 
 #define LOGNAME "COMMU"
+
+const std::string left_brace = "\{";
+const std::string right_brace = "\}";
+const std::string semicolon = "\:";
+const std::string left_dqm = "\"";
+const std::string right_dqm = "\"";
+const std::string comma = "\,";

@@ -55,6 +55,10 @@
     <ClInclude Include="src\include\reportmessage\chatmessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\jsonconvert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\uiparameter.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -107,5 +111,11 @@
     <ClCompile Include="src\core\operation_send_message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\jsonconvert.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="src\lib\json\json.lib" />
   </ItemGroup>
 </Project>

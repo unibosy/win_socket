@@ -1,6 +1,6 @@
 #include "../include/appcontext.h"
 #include "../include/log.h"
-#include "commondef.h"
+#include "../include/commondef.h"
 
 #include <string>
 #include <thread>

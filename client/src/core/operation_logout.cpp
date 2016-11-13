@@ -1,5 +1,5 @@
 #include "../operation_logout.h"
-#include "log.h"
+#include "../include/log.h"
 
 Operation_Logout::Operation_Logout()
 {}

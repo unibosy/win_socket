@@ -40,4 +40,5 @@ private:
   
   SOCKET m_server_socket;
   SOCKET m_client_socket;
+  char* m_buf;
 };
