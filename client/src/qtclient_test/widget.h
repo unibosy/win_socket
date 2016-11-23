@@ -19,7 +19,7 @@ public slots :
   void dispalyMessage(const char*);
 
   //send message
-  void sendMessage(const QString& qstr);
+  void sendMessage();
 signals:
   void emitShowWhatRecv(const char*);
   //QLineEdit::returnPressed(QString&);

@@ -38,7 +38,7 @@ void Widget::prepareConnects()
   //send connect and slot
   //connect(m_sendQledit, SIGNAL(textFinished(const char*)), this, SLOT(sendMessage(const char*)));
 
-  connect(this->m_sendQledit, SIGNAL(textChanged(const QString&)), this, SLOT(sendMessage(const QString&)));
+  connect(this->m_sendQledit, SIGNAL(editingFinished()), this, SLOT(sendMessage()));
 }
 
 
@@ -80,9 +80,9 @@ void Widget::dispalyMessage(const char* message)
 
 }
 
-void Widget::sendMessage(const QString& qstr)
+void Widget::sendMessage()
 {
-  LOG(INFO)<< "send message"<<qstr.toStdString();
+  LOG(INFO)<< "send message"<<m_sendQledit->text().toStdString();
   std::unique_ptr<OperationManager> om(new OperationManager);
   std::unique_ptr<ResourceInfo> resinfo(new ResourceInfo());
 
