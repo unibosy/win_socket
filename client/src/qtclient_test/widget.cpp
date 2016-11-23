@@ -4,6 +4,8 @@
 
 #include "log.h"
 
+#include "uiparameter.h"
+
 Widget::Widget(QWidget* parent)
 { 
   prepareDatas();
@@ -85,8 +87,12 @@ void Widget::sendMessage()
   LOG(INFO)<< "send message"<<m_sendQledit->text().toStdString();
   std::unique_ptr<OperationManager> om(new OperationManager);
   std::unique_ptr<ResourceInfo> resinfo(new ResourceInfo());
-
-  om.get()->invoke(resinfo.get(), SEND_MSG, nullptr);
+  char sendMessage[100] = {0};
+  strncpy_s(sendMessage, m_sendQledit->text().toStdString().c_str(), strlen(m_sendQledit->text().toStdString().c_str()));
+  std::unique_ptr<SMessage> smsg(new SMessage);
+  smsg->message = sendMessage;
+  smsg->type = 0;
+  om.get()->invoke(resinfo.get(), SEND_MSG, smsg.get());
 }
 
 

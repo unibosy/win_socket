@@ -172,7 +172,6 @@
     <ClInclude Include="src\operation_login.h" />
     <ClInclude Include="src\operation_logout.h" />
     <ClInclude Include="src\operation_send_message.h" />
-    <ClInclude Include="src\utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\appcontext.cpp" />

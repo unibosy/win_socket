@@ -28,9 +28,6 @@
     <ClInclude Include="src\include\resourceinfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\include\lock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -58,7 +55,9 @@
     <ClInclude Include="src\jsonconvert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\include\uiparameter.h" />
+    <ClInclude Include="src\include\uiparameter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

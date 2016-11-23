@@ -11,6 +11,7 @@ Operation_Send_Message::~Operation_Send_Message()
 
 int Operation_Send_Message::invoke_para(ResourceInfo* resourceinfo, void* para)
 {
-  ClientSocket::instance().setMessage("from client message!");
+  std::unique_ptr<SMessage> smsg((SMessage*)(para));
+  ClientSocket::instance().setMessage(smsg.get()->message);
   return 1;
 }

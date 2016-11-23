@@ -2,6 +2,7 @@
 
 #include "include/resourceinfo.h"
 #include "include/operationmanager.h"
+#include "uiparameter.h"
 
 class OperationBase
 {
