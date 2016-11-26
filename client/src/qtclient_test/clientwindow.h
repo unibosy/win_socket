@@ -44,8 +44,8 @@ public slots:
 protected:
   
   void initStye(Ui::ClientClass* ui);
-  void initData();
-
+  void initData(Ui::ClientClass* ui);
+  void prepareConnect(Ui::ClientClass* ui);
   int login();
 
 

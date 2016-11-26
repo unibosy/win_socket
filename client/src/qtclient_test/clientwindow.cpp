@@ -7,42 +7,26 @@
 #include "macros.h"
 #include "log.h"
 
-
 #include <qstring.h>
 #include <qdebug.h>
 #include <iostream>
 
 ClientWindow::ClientWindow(QWidget *parent)
   : QMainWindow(parent),
-  ui(new Ui::ClientClass)
+  ui(new Ui::ClientClass),
+  m_widget(nullptr),
+  m_id(""),
+  m_localip(""),
+  m_psw(""),
+  m_serverip("")
 {
   label = new QLabel(this);
   
   ui->setupUi(this);
 
-  initData();
+  initData(ui);
   initStye(ui);
-
-  //connect the signals with slots
-  connect(ui->id, SIGNAL(textEdited(const QString&)), this, SLOT(setID(const QString&)));
-  
-  connect(ui->password, SIGNAL(textEdited(const QString&)), this, SLOT(setPassword(const QString&)));
-
-  if ("" != m_localip)
-  {
-    ui->localip->setText(m_localip);
-  }
-  else
-    connect(ui->localip, SIGNAL(textEdited(const QString&)), this, SLOT(setLocalIP(const QString&)));
-  if ("" != m_serverip)
-  {
-    ui->serverip->setText(m_serverip);
-  }
-  else
-    connect(ui->serverip, SIGNAL(textEdited(const QString&)), this, SLOT(setServerIP(const QString&)));
-  
-  connect(ui->login_btn, SIGNAL(clicked()), this, SLOT(loginClicked()));
-  connect(ui->cancel_btn, SIGNAL(clicked()), this, SLOT(cancelClicked()));
+  prepareConnect(ui);
 }
 
 ClientWindow::~ClientWindow()
@@ -55,6 +39,13 @@ ClientWindow::~ClientWindow()
   if (m_widget)
   {
     delete m_widget;
+    m_widget = nullptr;
+
+  }
+  if (label)
+  {
+    delete label;
+    label = nullptr;
   }
 }
 
@@ -70,7 +61,7 @@ void ClientWindow::initStye(Ui::ClientClass* ui)
   ui->serverip->setEchoMode(QLineEdit::Normal);
 }
 
-void ClientWindow::initData()
+void ClientWindow::initData(Ui::ClientClass* ui)
 {
   //std::auto_ptr<ReadFile> rf(new ReadFile(""));
   //ReadFile* rf = new ReadFile("");
@@ -79,14 +70,34 @@ void ClientWindow::initData()
   rc.get()->readText();
   m_localip = QString::fromStdString( rc.get()->getServerIP() );
   m_serverip = QString::fromStdString(rc.get()->getClientIP());
+  if ("" != m_localip)
+  {
+    ui->localip->setText(m_localip);
+  }
+  if ("" != m_serverip)
+  {
+    ui->serverip->setText(m_serverip);
+  }
 
   LOG(INFO) << "m_localip=" << m_localip.toStdString() << ",m_serverip=" << m_serverip.toStdString();
 
+}
 
-  m_id = "";
-  m_psw = "";
-  //m_localip = "";
-  //m_serverip = "";
+void ClientWindow::prepareConnect(Ui::ClientClass* ui)
+{
+  //connect the signals with slots
+  connect(ui->id, SIGNAL(textEdited(const QString&)), this, SLOT(setID(const QString&)));
+
+  connect(ui->password, SIGNAL(textEdited(const QString&)), this, SLOT(setPassword(const QString&)));
+
+
+  connect(ui->localip, SIGNAL(textEdited(const QString&)), this, SLOT(setLocalIP(const QString&)));
+
+  connect(ui->serverip, SIGNAL(textEdited(const QString&)), this, SLOT(setServerIP(const QString&)));
+
+  connect(ui->login_btn, SIGNAL(clicked()), this, SLOT(loginClicked()));
+
+  connect(ui->cancel_btn, SIGNAL(clicked()), this, SLOT(cancelClicked()));
 }
 void ClientWindow::setID(const QString& id)
 {
