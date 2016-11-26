@@ -81,18 +81,23 @@ void Widget::dispalyMessage(const char* message)
   this->m_recvQledit->setText(message);
 
 }
-
+int number = 0;
 void Widget::sendMessage()
 {
-  LOG(INFO)<< "send message"<<m_sendQledit->text().toStdString();
+  if (number++ <= 0)
+    return;
+  LOG(INFO)<< "send message:"<<m_sendQledit->text().toStdString();
   std::unique_ptr<OperationManager> om(new OperationManager);
   std::unique_ptr<ResourceInfo> resinfo(new ResourceInfo());
   char sendMessage[100] = {0};
   strncpy_s(sendMessage, m_sendQledit->text().toStdString().c_str(), strlen(m_sendQledit->text().toStdString().c_str()));
-  std::unique_ptr<SMessage> smsg(new SMessage);
+  
+  //SMessage* smsg(new SMessage);
+  std::shared_ptr<SMessage> smsg(new SMessage);
   smsg->message = sendMessage;
   smsg->type = 0;
   om.get()->invoke(resinfo.get(), SEND_MSG, smsg.get());
+  m_sendQledit->clear();
 }
 
 

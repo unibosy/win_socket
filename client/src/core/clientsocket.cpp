@@ -120,7 +120,7 @@ bool ClientSocket::createSocket(const char* serverip)
 void ClientSocket::sendMessage()
 {
   //int length = strlen(send_message);
-  std::cout << "sendMessage thread id=" << std::this_thread::get_id() << std::endl;
+  LOG(INFO) << "enter sendMessage";
     //<<",message="<< send_message << ",length="<< length <<std::endl;
 
   int iResult = -1;
@@ -135,11 +135,13 @@ void ClientSocket::sendMessage()
 
         iResult = ::send(m_socket, send_message, strlen(send_message), 0);
 
-        std::cout << "send_message="<< send_message << std::endl;
-        memset(m_buf, 0, MESSAGEBUF);
+        LOG(INFO)<<"::send message, message="<< send_message;
         //delete send_message;
         //send_message = nullptr;
         memset(m_buf, 0, MESSAGEBUF);
+        const char* sendStr = getMessage();
+        LOG(INFO) << "::send message, message 1=" << sendStr;
+
         if (iResult > 0)
         {
           std::cout << "send_message is=" << send_message << std::endl;
@@ -210,6 +212,7 @@ void ClientSocket::runSendThread()
 
 void ClientSocket::setMessage(const char* message)
 {
+  memset(m_buf,0, MESSAGEBUF);
   strncpy(m_buf, message, strlen(message));
 }
 const char* ClientSocket::getMessage() const
