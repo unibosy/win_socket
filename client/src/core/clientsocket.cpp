@@ -213,7 +213,7 @@ void ClientSocket::runSendThread()
 void ClientSocket::setMessage(const char* message)
 {
   memset(m_buf,0, MESSAGEBUF);
-  strncpy(m_buf, message, strlen(message));
+  strncpy_s(m_buf, strlen(message), message, strlen(message));
 }
 const char* ClientSocket::getMessage() const
 {
